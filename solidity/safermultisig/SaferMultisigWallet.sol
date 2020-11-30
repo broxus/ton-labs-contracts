@@ -233,6 +233,22 @@ contract MultisigWallet is IAccept {
         dest.transfer(realValue, /*bounce*/false, flags, payload);
     }
 
+    function recoverStake(uint64 queryId) public view {
+        require(msg.pubkey() == m_nodeKey, 100);
+        tvm.accept();
+
+        TvmBuilder builder;
+        builder.store(uint32(0x47657424), queryId);
+
+        address dest = address.makeAddrStd(-1, 0x3333333333333333333333333333333333333333333333333333333333333333);
+        uint128 value = 1 ton;
+
+        (uint8 flags, uint128 realValue) = _getSendFlags(value, false);
+        TvmCell payload = builder.toCell();
+
+        dest.transfer(realValue, /*bounce*/false, flags, payload);
+    }
+
     /// @dev Allows custodian if she is the only owner of multisig to transfer funds with minimal fees.
     /// @param dest Transfer target address.
     /// @param value Amount of funds to transfer.

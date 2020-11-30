@@ -662,6 +662,247 @@ SENDRAWMSG
 BLKDROP 13
 ; end function sendStake
 
+.globl	recoverStake
+.public	recoverStake
+.type	recoverStake, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+; Decode queryId
+LDU 64
+ENDS
+;; param: queryId
+; function recoverStake
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; push identifier m_nodeKey
+GETGLOB 14
+;; ==
+EQUAL
+THROWIFNOT 100
+ACCEPT
+NEWC
+;; decl: builder
+; expValue
+DUP
+; end expValue
+PUSHINT 1197831204
+;; uint32
+UFITS 32
+STUR 32
+;; push identifier queryId
+PUSH S2
+STUR 64
+; colValue
+NIP
+; end colValue
+PUSHINT -1
+PUSHINT 23158417847463239084714197001737581570653996933128112807891516801582625927987
+;; address.makeAddrStd()
+CALL $make_std_address_with_wid_macro$
+;; decl: dest
+PUSHINT 1000000000
+;; decl: value
+;; push identifier value
+DUP
+FALSE
+;; param: value
+;; param: allBalance
+; function _getSendFlags
+PUSHINT 2
+PUSHINT 1
+;; |
+OR
+;; decl: flags
+;; if
+;; push identifier allBalance
+PUSH S1
+PUSHCONT {
+	; expValue
+	; end expValue
+	PUSHINT 2
+	PUSHINT 128
+	;; |
+	OR
+	; colValue
+	NIP
+	; end colValue
+	;; get member balance
+	GETPARAM 7
+	INDEX 0
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+}
+IF
+;; end if
+;; return
+;; push identifier flags
+DUP
+;; push identifier value
+PUSH S3
+BLKDROP2 3, 2
+; end function _getSendFlags
+;; decl: flags
+;; decl: realValue
+;; push identifier builder
+PUSH S4
+ENDC
+;; decl: payload
+;; transfer()
+;; push identifier realValue
+PUSH S1
+;; push identifier dest
+PUSH S5
+NEWC
+STSLICECONST x42_
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 105
+STZEROES
+STSLICECONST 0
+STSLICECONST 1
+;; push identifier payload
+PUSH S1
+STREFR
+ENDC
+;; push identifier flags
+PUSH S3
+SENDRAWMSG
+BLKDROP 7
+; end function recoverStake
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	recoverStake_internal
+.type	recoverStake_internal, @function
+;; param: queryId
+; function recoverStake
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; push identifier m_nodeKey
+GETGLOB 14
+;; ==
+EQUAL
+THROWIFNOT 100
+ACCEPT
+NEWC
+;; decl: builder
+; expValue
+DUP
+; end expValue
+PUSHINT 1197831204
+;; uint32
+UFITS 32
+STUR 32
+;; push identifier queryId
+PUSH S2
+STUR 64
+; colValue
+NIP
+; end colValue
+PUSHINT -1
+PUSHINT 23158417847463239084714197001737581570653996933128112807891516801582625927987
+;; address.makeAddrStd()
+CALL $make_std_address_with_wid_macro$
+;; decl: dest
+PUSHINT 1000000000
+;; decl: value
+;; push identifier value
+DUP
+FALSE
+;; param: value
+;; param: allBalance
+; function _getSendFlags
+PUSHINT 2
+PUSHINT 1
+;; |
+OR
+;; decl: flags
+;; if
+;; push identifier allBalance
+PUSH S1
+PUSHCONT {
+	; expValue
+	; end expValue
+	PUSHINT 2
+	PUSHINT 128
+	;; |
+	OR
+	; colValue
+	NIP
+	; end colValue
+	;; get member balance
+	GETPARAM 7
+	INDEX 0
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+}
+IF
+;; end if
+;; return
+;; push identifier flags
+DUP
+;; push identifier value
+PUSH S3
+BLKDROP2 3, 2
+; end function _getSendFlags
+;; decl: flags
+;; decl: realValue
+;; push identifier builder
+PUSH S4
+ENDC
+;; decl: payload
+;; transfer()
+;; push identifier realValue
+PUSH S1
+;; push identifier dest
+PUSH S5
+NEWC
+STSLICECONST x42_
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 105
+STZEROES
+STSLICECONST 0
+STSLICECONST 1
+;; push identifier payload
+PUSH S1
+STREFR
+ENDC
+;; push identifier flags
+PUSH S3
+SENDRAWMSG
+BLKDROP 7
+; end function recoverStake
+
 .globl	sendTransaction
 .public	sendTransaction
 .type	sendTransaction, @function

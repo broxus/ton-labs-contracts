@@ -35,6 +35,14 @@
 			]
 		},
 		{
+			"name": "recoverStake",
+			"inputs": [
+				{"name":"queryId","type":"uint64"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "sendTransaction",
 			"inputs": [
 				{"name":"dest","type":"address"},
