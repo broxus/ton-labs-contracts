@@ -1,0 +1,5202 @@
+.globl	constructor
+.public	constructor
+.type	constructor, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7_with_init_storage$
+}
+IF
+;; constructor protection
+GETGLOB 6
+THROWIF 51
+PUSHINT 1
+SETGLOB 6
+;; end constructor protection
+; Decode input parameters
+; Decode owners
+LDU 32
+LDDICT
+ROTREV
+PAIR
+SWAP
+; Decode node
+LDUQ 256
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 256
+}
+IFNOT
+; Decode reqConfirms
+LDUQ 8
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 8
+}
+IFNOT
+ENDS
+;; param: owners
+;; param: node
+;; param: reqConfirms
+; constructor MultisigWallet
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+GETGLOB 2
+;; ==
+EQUAL
+THROWIFNOT 100
+;; get member length
+;; push identifier owners
+PUSH S2
+FIRST
+GTINT 0
+;; short-circuiting &&
+DUP
+PUSHCONT {
+	DROP
+	;; get member length
+	;; push identifier owners
+	PUSH S2
+	FIRST
+	PUSHINT 32
+	;; <=
+	LEQ
+}
+IF
+THROWIFNOT 117
+ACCEPT
+;; push identifier owners
+PUSH S2
+;; push identifier node
+PUSH S2
+;; push identifier reqConfirms
+PUSH S2
+;; param: owners
+;; param: node
+;; param: reqConfirms
+; function _initialize
+PUSHINT 0
+;; decl: ownerCount
+; expValue
+; end expValue
+;; index
+PUSHINT 0
+;; push identifier owners
+PUSH S4
+INDEX 1
+PUSHINT 32
+DICTUGET
+THROWIFNOT 50
+PLDU 256
+; colValue
+SETGLOB 10
+; end colValue
+; expValue
+; end expValue
+;; push identifier node
+PUSH S2
+; colValue
+SETGLOB 14
+; end colValue
+;; get member length
+;; push identifier owners
+PUSH S3
+FIRST
+;; decl: len
+; for
+PUSHINT 0
+;; decl: i
+PUSHCONT {
+	;; push identifier i
+	DUP
+	;; push identifier len
+	PUSH S2
+	;; <
+	LESS
+	;; short-circuiting &&
+	DUP
+	PUSHCONT {
+		DROP
+		;; push identifier ownerCount
+		PUSH S2
+		LESSINT 32
+	}
+	IF
+}
+PUSHCONT {
+	;; index
+	;; push identifier i
+	DUP
+	;; push identifier owners
+	PUSH S6
+	INDEX 1
+	PUSHINT 32
+	DICTUGET
+	THROWIFNOT 50
+	PLDU 256
+	;; decl: key
+	;; if
+	;; !
+	;; map.exists
+	;; push identifier key
+	DUP
+	;; push identifier m_custodians
+	GETGLOB 13
+	PUSHINT 256
+	DICTUGET
+	DUP
+	PUSHCONT {
+		NIP
+	}
+	IF
+	PUSHCONT {
+		;; ++
+		; expValue
+		PUSH S3
+		; end expValue
+		DUP
+		INC
+		; colValue
+		POP s5
+		; end colValue
+		; expValue
+		;; fetch m_custodians
+		GETGLOB 13
+		;; push identifier key
+		PUSH S2
+		SWAP
+		; end expValue
+		ROT
+		; colValue
+		NEWC
+		STU 8
+		ROTREV
+		PUSHINT 256
+		DICTUSETB
+		SETGLOB 13
+		; end colValue
+	}
+	IFNOT
+	;; end if
+	DROP
+	;; ++
+	; expValue
+	; end expValue
+	INC
+	; colValue
+	; end colValue
+}
+WHILE
+DROP
+; end for
+; expValue
+; end expValue
+;; push identifier ownerCount
+PUSH S1
+;; push identifier reqConfirms
+PUSH S3
+;; <=
+LEQ
+PUSHCONT {
+	;; push identifier ownerCount
+	PUSH S1
+}
+PUSHCONT {
+	;; push identifier reqConfirms
+	PUSH S2
+}
+IFELSE
+; colValue
+SETGLOB 16
+; end colValue
+; expValue
+; end expValue
+;; push identifier ownerCount
+PUSH S1
+; colValue
+SETGLOB 15
+; end colValue
+BLKDROP 5
+; end function _initialize
+BLKDROP 3
+; end constructor MultisigWallet
+CALL $c7_to_c4$
+TRUE
+SETGLOB 7
+
+.globl	acceptTransfer
+.public	acceptTransfer
+.type	acceptTransfer, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+; Decode payload
+LDREF
+ENDS
+;; param: payload
+; function acceptTransfer
+;; emit TransferAccepted
+NEWC
+PUSHSLICE xc0000000000000000000000002_
+STSLICER
+STSLICECONST 0
+STSLICECONST 0
+STSLICECONST x7d729cc8
+;; payload
+;; push identifier payload
+PUSH S1
+STREFR
+ENDC
+PUSHINT 1
+SENDRAWMSG
+DROP
+; end function acceptTransfer
+CALL $c7_to_c4$
+TRUE
+SETGLOB 7
+
+.globl	sendStake
+.public	sendStake
+.type	sendStake, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+; Decode value
+LDUQ 128
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 128
+}
+IFNOT
+; Decode queryId
+LDUQ 64
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 64
+}
+IFNOT
+; Decode validatorPubKey
+LDUQ 256
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 256
+}
+IFNOT
+; Decode electionId
+LDUQ 32
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 32
+}
+IFNOT
+; Decode maxFactor
+LDUQ 32
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 32
+}
+IFNOT
+; Decode adnlAddr
+LDUQ 256
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 256
+}
+IFNOT
+; Decode signature
+LDREF
+ENDS
+;; param: value
+;; param: queryId
+;; param: validatorPubKey
+;; param: electionId
+;; param: maxFactor
+;; param: adnlAddr
+;; param: signature
+; function sendStake
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; push identifier m_nodeKey
+GETGLOB 14
+;; ==
+EQUAL
+THROWIFNOT 100
+;; get member length
+;; push identifier signature
+DUP
+CTOS
+SBITS
+RSHIFT 3
+EQINT 64
+THROWIFNOT 150
+ACCEPT
+NEWC
+;; decl: builder
+; expValue
+DUP
+; end expValue
+PUSHINT 1316189259
+;; uint32
+UFITS 32
+STUR 32
+;; push identifier queryId
+PUSH S7
+STUR 64
+;; push identifier validatorPubKey
+PUSH S6
+STUR 256
+;; push identifier electionId
+PUSH S5
+STUR 32
+;; push identifier maxFactor
+PUSH S4
+STUR 32
+;; push identifier adnlAddr
+PUSH S3
+STUR 256
+; colValue
+NIP
+; end colValue
+NEWC
+;; decl: signatureBuilder
+; expValue
+DUP
+; end expValue
+;; push identifier signature
+PUSH S3
+CTOS
+STSLICER 
+; colValue
+NIP
+; end colValue
+; expValue
+PUSH S1
+; end expValue
+;; push identifier signatureBuilder
+PUSH S1
+STBREFR
+; colValue
+POP s2
+; end colValue
+PUSHINT -1
+PUSHINT 23158417847463239084714197001737581570653996933128112807891516801582625927987
+;; address.makeAddrStd()
+CALL $make_std_address_with_wid_macro$
+;; decl: dest
+;; push identifier value
+PUSH S9
+FALSE
+;; param: value
+;; param: allBalance
+; function _getSendFlags
+PUSHINT 2
+PUSHINT 1
+;; |
+OR
+;; decl: flags
+;; if
+;; push identifier allBalance
+PUSH S1
+PUSHCONT {
+	; expValue
+	; end expValue
+	PUSHINT 2
+	PUSHINT 128
+	;; |
+	OR
+	; colValue
+	NIP
+	; end colValue
+	;; get member balance
+	GETPARAM 7
+	INDEX 0
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+}
+IF
+;; end if
+;; return
+;; push identifier flags
+DUP
+;; push identifier value
+PUSH S3
+BLKDROP2 3, 2
+; end function _getSendFlags
+;; decl: flags
+;; decl: realValue
+;; push identifier builder
+PUSH S4
+ENDC
+;; decl: payload
+;; transfer()
+;; push identifier realValue
+PUSH S1
+;; push identifier dest
+PUSH S4
+NEWC
+STSLICECONST x42_
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 105
+STZEROES
+STSLICECONST 0
+STSLICECONST 1
+;; push identifier payload
+PUSH S1
+STREFR
+ENDC
+;; push identifier flags
+PUSH S3
+SENDRAWMSG
+BLKDROP 13
+; end function sendStake
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	sendStake_internal
+.type	sendStake_internal, @function
+;; param: value
+;; param: queryId
+;; param: validatorPubKey
+;; param: electionId
+;; param: maxFactor
+;; param: adnlAddr
+;; param: signature
+; function sendStake
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; push identifier m_nodeKey
+GETGLOB 14
+;; ==
+EQUAL
+THROWIFNOT 100
+;; get member length
+;; push identifier signature
+DUP
+CTOS
+SBITS
+RSHIFT 3
+EQINT 64
+THROWIFNOT 150
+ACCEPT
+NEWC
+;; decl: builder
+; expValue
+DUP
+; end expValue
+PUSHINT 1316189259
+;; uint32
+UFITS 32
+STUR 32
+;; push identifier queryId
+PUSH S7
+STUR 64
+;; push identifier validatorPubKey
+PUSH S6
+STUR 256
+;; push identifier electionId
+PUSH S5
+STUR 32
+;; push identifier maxFactor
+PUSH S4
+STUR 32
+;; push identifier adnlAddr
+PUSH S3
+STUR 256
+; colValue
+NIP
+; end colValue
+NEWC
+;; decl: signatureBuilder
+; expValue
+DUP
+; end expValue
+;; push identifier signature
+PUSH S3
+CTOS
+STSLICER 
+; colValue
+NIP
+; end colValue
+; expValue
+PUSH S1
+; end expValue
+;; push identifier signatureBuilder
+PUSH S1
+STBREFR
+; colValue
+POP s2
+; end colValue
+PUSHINT -1
+PUSHINT 23158417847463239084714197001737581570653996933128112807891516801582625927987
+;; address.makeAddrStd()
+CALL $make_std_address_with_wid_macro$
+;; decl: dest
+;; push identifier value
+PUSH S9
+FALSE
+;; param: value
+;; param: allBalance
+; function _getSendFlags
+PUSHINT 2
+PUSHINT 1
+;; |
+OR
+;; decl: flags
+;; if
+;; push identifier allBalance
+PUSH S1
+PUSHCONT {
+	; expValue
+	; end expValue
+	PUSHINT 2
+	PUSHINT 128
+	;; |
+	OR
+	; colValue
+	NIP
+	; end colValue
+	;; get member balance
+	GETPARAM 7
+	INDEX 0
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+}
+IF
+;; end if
+;; return
+;; push identifier flags
+DUP
+;; push identifier value
+PUSH S3
+BLKDROP2 3, 2
+; end function _getSendFlags
+;; decl: flags
+;; decl: realValue
+;; push identifier builder
+PUSH S4
+ENDC
+;; decl: payload
+;; transfer()
+;; push identifier realValue
+PUSH S1
+;; push identifier dest
+PUSH S4
+NEWC
+STSLICECONST x42_
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 105
+STZEROES
+STSLICECONST 0
+STSLICECONST 1
+;; push identifier payload
+PUSH S1
+STREFR
+ENDC
+;; push identifier flags
+PUSH S3
+SENDRAWMSG
+BLKDROP 13
+; end function sendStake
+
+.globl	sendTransaction
+.public	sendTransaction
+.type	sendTransaction, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+; Decode dest
+LDMSGADDRQ
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDMSGADDR
+}
+IFNOT
+; Decode value
+LDUQ 128
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 128
+}
+IFNOT
+; Decode bounce
+LDIQ 1
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDI 1
+}
+IFNOT
+; Decode flags
+LDUQ 8
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 8
+}
+IFNOT
+; Decode payload
+;; decode TvmCell
+LDREF
+ENDS
+;; param: dest
+;; param: value
+;; param: bounce
+;; param: flags
+;; param: payload
+; function sendTransaction
+;; push identifier m_custodianCount
+GETGLOB 15
+EQINT 1
+THROWIFNOT 108
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; push identifier m_ownerKey
+GETGLOB 10
+;; ==
+EQUAL
+THROWIFNOT 100
+ACCEPT
+;; transfer()
+;; push identifier value
+PUSH S3
+;; push identifier dest
+PUSH S5
+;; push identifier bounce
+PUSH S4
+NEWC
+STSLICECONST x6_
+STI 1
+PUSHINT 3
+STZEROES
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 105
+STZEROES
+STSLICECONST 0
+STSLICECONST 1
+;; push identifier payload
+PUSH S1
+STREFR
+ENDC
+;; push identifier flags
+PUSH S2
+SENDRAWMSG
+BLKDROP 5
+; end function sendTransaction
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	sendTransaction_internal
+.type	sendTransaction_internal, @function
+;; param: dest
+;; param: value
+;; param: bounce
+;; param: flags
+;; param: payload
+; function sendTransaction
+;; push identifier m_custodianCount
+GETGLOB 15
+EQINT 1
+THROWIFNOT 108
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; push identifier m_ownerKey
+GETGLOB 10
+;; ==
+EQUAL
+THROWIFNOT 100
+ACCEPT
+;; transfer()
+;; push identifier value
+PUSH S3
+;; push identifier dest
+PUSH S5
+;; push identifier bounce
+PUSH S4
+NEWC
+STSLICECONST x6_
+STI 1
+PUSHINT 3
+STZEROES
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 105
+STZEROES
+STSLICECONST 0
+STSLICECONST 1
+;; push identifier payload
+PUSH S1
+STREFR
+ENDC
+;; push identifier flags
+PUSH S2
+SENDRAWMSG
+BLKDROP 5
+; end function sendTransaction
+
+.globl	submitTransaction
+.public	submitTransaction
+.type	submitTransaction, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+; Decode dest
+LDMSGADDRQ
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDMSGADDR
+}
+IFNOT
+; Decode value
+LDUQ 128
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDU 128
+}
+IFNOT
+; Decode bounce
+LDIQ 1
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDI 1
+}
+IFNOT
+; Decode allBalance
+LDIQ 1
+PUSHCONT {
+	;; load next cell
+	LDREF
+	ENDS
+	CTOS
+	LDI 1
+}
+IFNOT
+; Decode payload
+;; decode TvmCell
+LDREF
+ENDS
+;; param: dest
+;; param: value
+;; param: bounce
+;; param: allBalance
+;; param: payload
+; function submitTransaction
+;; ret param: transId
+PUSHINT 0
+PUSHCONT {
+	GETGLOB 5
+	DUP
+	ISNULL
+	PUSHCONT {
+		DROP
+		PUSHINT 0
+	}
+	IF
+	;; decl: senderKey
+	;; push identifier senderKey
+	DUP
+	;; param: senderKey
+	; function _findCustodian
+	;; map.fetch
+	;; push identifier senderKey
+	DUP
+	;; push identifier m_custodians
+	GETGLOB 13
+	PUSHINT 256
+	DICTUGET
+	NULLSWAPIFNOT
+	PUSHCONT {
+		PLDU 8
+	}
+	IF
+	;; decl: index
+	;; push identifier index
+	DUP
+	ISNULL
+	NOT
+	THROWIFNOT 100
+	;; return
+	;; push identifier index
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	NIP
+	NIP
+	; end function _findCustodian
+	;; decl: index
+	;; push identifier value
+	PUSH S6
+	PUSHINT 1000000
+	;; >=
+	GEQ
+	THROWIFNOT 107
+	;; push identifier payload
+	PUSH S3
+	CTOS
+	NULL
+	SWAP
+	PUSHINT 0
+	PUSHINT 1 ; null s b r
+	PUSHCONT {
+	    ; null s... b r
+		PUSH S2 ; null s... b r s
+		SREFS   ; null s... b r cntRef
+		PUSHCONT {
+			; null s... b r
+			ROT         ; null s... b r s
+			LDREFRTOS   ; null s... b r s' new_s
+			SWAP2       ; null s... s' new_s b r
+			INC
+		}
+		PUSHCONT {
+			; null s... b r
+			XCHG S2 ; null s... r b s
+			SBITS   ; null s... r b bs
+			ADD     ; null s... r b
+			SWAP    ; null s... b r
+		}
+		IFELSE
+		PUSH S2
+		ISNULL
+	}
+	UNTIL
+	; null b r
+	ROT  ; b r null
+	DROP ; b r
+	;; decl: bits
+	;; decl: cells
+	;; push identifier bits
+	PUSH S1
+	PUSHINT 8192
+	;; <
+	LESS
+	;; short-circuiting &&
+	DUP
+	PUSHCONT {
+		DROP
+		;; push identifier cells
+		DUP
+		LESSINT 8
+	}
+	IF
+	THROWIFNOT 121
+	; function _removeExpiredTransactions
+	PUSHCONT {
+		; function _getExpirationBound
+		;; return
+		;; push identifier now
+		NOW
+		PUSHINT 3600
+		;; -
+		SUB
+		PUSHINT 32
+		;; <<
+		LSHIFT
+		; end function _getExpirationBound
+		;; decl: marker
+		;; map.min
+		;; push identifier m_transactions
+		GETGLOB 12
+		PUSHINT 64
+		DICTUMIN
+		PUSHCONT {
+			SWAP
+			LDU 64
+			LDU 32
+			LDU 8
+			LDU 8
+			LDU 256
+			LDU 8
+			LDMSGADDR
+			LDU 128
+			LDU 16
+			LDREF
+			PLDI 1
+			TUPLE 11
+			TUPLE 2
+		}
+		PUSHCONT {
+			NULL
+		}
+		IFELSE
+		;; decl: minTransaction
+		;; if
+		;; !
+		;; push identifier minTransaction
+		DUP
+		ISNULL
+		PUSHCONT {
+			;; return
+			DROP2
+			RET
+		}
+		IFJMP
+		;; end if
+		;; push identifier minTransaction
+		DUP
+		DUP
+		ISNULL
+		THROWIF 63
+		UNTUPLE 2
+		;; decl: trId
+		;; decl: txn
+		;; push identifier trId
+		PUSH S1
+		;; push identifier marker
+		PUSH S4
+		;; <=
+		LEQ
+		;; decl: needCleanup
+		;; if
+		;; !
+		;; push identifier needCleanup
+		DUP
+		PUSHCONT {
+			;; return
+			BLKDROP 5
+			RET
+		}
+		IFNOTJMP
+		;; end if
+		ACCEPT
+		PUSHINT 0
+		;; decl: i
+		; while
+		FALSE ; decl return flag
+		PUSHCONT {
+			DUP
+			LESSINT 2
+			DUP
+			PUSHCONT {
+				DROP
+				;; push identifier needCleanup
+				PUSH S2
+				;; short-circuiting &&
+				DUP
+				PUSHCONT {
+					DROP
+					;; push identifier i
+					PUSH S1
+					LESSINT 40
+				}
+				IF
+			}
+			IF
+		}
+		PUSHCONT {
+			;; ++
+			; expValue
+			PUSH S1
+			; end expValue
+			INC
+			; colValue
+			POP s2
+			; end colValue
+			;; push identifier m_requestsMask
+			GETGLOB 11
+			;; get member index
+			;; push identifier txn
+			PUSH S4
+			INDEX 5
+			;; param: mask
+			;; param: index
+			; function _decMaskValue
+			;; return
+			;; push identifier mask
+			PUSH S1
+			PUSHINT 1
+			PUSHINT 8
+			;; push identifier index
+			PUSH S3
+			;; *
+			MUL
+			;; <<
+			LSHIFT
+			;; -
+			SUB
+			NIP
+			NIP
+			; end function _decMaskValue
+			; expValue
+			; end expValue
+			; colValue
+			SETGLOB 11
+			; end colValue
+			;; delete
+			; expValue
+			;; fetch m_transactions
+			GETGLOB 12
+			;; push identifier trId
+			PUSH S5
+			SWAP
+			; end expValue
+			PUSH S1
+			SWAP
+			PUSHINT 64
+			DICTUDEL
+			DROP
+			; colValue
+			NIP
+			SETGLOB 12
+			; end colValue
+			;; map.next
+			;; push identifier trId
+			PUSH S4
+			;; push identifier m_transactions
+			GETGLOB 12
+			PUSHINT 64
+			DICTUGETNEXT
+			PUSHCONT {
+				SWAP
+				LDU 64
+				LDU 32
+				LDU 8
+				LDU 8
+				LDU 256
+				LDU 8
+				LDMSGADDR
+				LDU 128
+				LDU 16
+				LDREF
+				PLDI 1
+				TUPLE 11
+				TUPLE 2
+			}
+			PUSHCONT {
+				NULL
+			}
+			IFELSE
+			; expValue
+			; end expValue
+			; colValue
+			POP s6
+			; end colValue
+			;; if
+			;; !
+			;; push identifier minTransaction
+			PUSH S5
+			ISNULL
+			PUSHCONT {
+				;; break
+				DROP
+				PUSHINT 2
+				RET
+			}
+			IFJMP
+			;; end if
+			;; push identifier minTransaction
+			PUSH S5
+			DUP
+			ISNULL
+			THROWIF 63
+			UNTUPLE 2
+			SWAP
+			; expValue
+			; end expValue
+			; colValue
+			POP s6
+			; end colValue
+			; expValue
+			; end expValue
+			; colValue
+			POP s4
+			; end colValue
+			; expValue
+			; end expValue
+			;; push identifier trId
+			PUSH S4
+			;; push identifier marker
+			PUSH S7
+			;; <=
+			LEQ
+			; colValue
+			POP s3
+			; end colValue
+		}
+		WHILE
+		DROP
+		; end while
+		CALL $c7_to_c4$
+		COMMIT
+		BLKDROP 6
+	}
+	CALLX
+	; end function _removeExpiredTransactions
+	;; push identifier m_requestsMask
+	GETGLOB 11
+	;; push identifier index
+	PUSH S3
+	;; param: mask
+	;; param: index
+	; function _getMaskValue
+	;; return
+	;; push identifier mask
+	PUSH S1
+	PUSHINT 8
+	;; push identifier index
+	PUSH S2
+	;; *
+	MUL
+	;; >>
+	RSHIFT
+	PUSHINT 255
+	;; &
+	AND
+	;; uint8
+	UFITS 8
+	NIP
+	NIP
+	; end function _getMaskValue
+	LESSINT 5
+	THROWIFNOT 113
+	ACCEPT
+	;; push identifier value
+	PUSH S8
+	;; push identifier allBalance
+	PUSH S7
+	;; param: value
+	;; param: allBalance
+	; function _getSendFlags
+	PUSHINT 2
+	PUSHINT 1
+	;; |
+	OR
+	;; decl: flags
+	;; if
+	;; push identifier allBalance
+	PUSH S1
+	PUSHCONT {
+		; expValue
+		; end expValue
+		PUSHINT 2
+		PUSHINT 128
+		;; |
+		OR
+		; colValue
+		NIP
+		; end colValue
+		;; get member balance
+		GETPARAM 7
+		INDEX 0
+		; expValue
+		; end expValue
+		; colValue
+		POP s3
+		; end colValue
+	}
+	IF
+	;; end if
+	;; return
+	;; push identifier flags
+	DUP
+	;; push identifier value
+	PUSH S3
+	BLKDROP2 3, 2
+	; end function _getSendFlags
+	;; decl: flags
+	;; decl: realValue
+	;; push identifier m_defaultRequiredConfirmations
+	GETGLOB 16
+	;; decl: requiredSigns
+	;; if
+	;; push identifier requiredSigns
+	DUP
+	EQINT 1
+	PUSHCONT {
+		;; transfer()
+		;; push identifier realValue
+		PUSH S1
+		;; push identifier dest
+		PUSH S13
+		;; push identifier bounce
+		PUSH S12
+		NEWC
+		STSLICECONST x6_
+		STI 1
+		PUSHINT 3
+		STZEROES
+		STSLICE
+		SWAP
+		STGRAMS
+		PUSHINT 105
+		STZEROES
+		STSLICECONST 0
+		STSLICECONST 1
+		;; push identifier payload
+		PUSH S9
+		STREFR
+		ENDC
+		;; push identifier flags
+		PUSH S3
+		SENDRAWMSG
+		;; return
+		BLKDROP 13
+		PUSHINT 0
+		RET
+	}
+	PUSHCONT {
+		;; push identifier m_requestsMask
+		GETGLOB 11
+		;; push identifier index
+		PUSH S6
+		;; param: mask
+		;; param: index
+		; function _incMaskValue
+		;; return
+		;; push identifier mask
+		PUSH S1
+		PUSHINT 1
+		PUSHINT 8
+		;; push identifier index
+		PUSH S3
+		;; *
+		MUL
+		;; <<
+		LSHIFT
+		;; +
+		ADD
+		NIP
+		NIP
+		; end function _incMaskValue
+		; expValue
+		; end expValue
+		; colValue
+		SETGLOB 11
+		; end colValue
+		; function _generateId
+		;; return
+		;; push identifier now
+		NOW
+		PUSHINT 32
+		;; <<
+		LSHIFT
+		;; get member timestamp
+		LTIME
+		PUSHINT 4294967295
+		;; &
+		AND
+		;; |
+		OR
+		; end function _generateId
+		;; decl: trId
+		;; push identifier trId
+		DUP
+		PUSHINT 0
+		;; push identifier requiredSigns
+		PUSH S3
+		PUSHINT 0
+		;; push identifier senderKey
+		PUSH S11
+		;; push identifier index
+		PUSH S11
+		;; push identifier dest
+		PUSH S19
+		;; push identifier realValue
+		PUSH S9
+		;; push identifier flags
+		PUSH S11
+		;; push identifier payload
+		PUSH S18
+		;; push identifier bounce
+		PUSH S21
+		TUPLE 11
+		;; decl: txn
+		;; push identifier trId
+		PUSH S1
+		;; push identifier txn
+		PUSH S1
+		;; push identifier index
+		PUSH S9
+		;; param: transactionId
+		;; param: txn
+		;; param: custodianIndex
+		; function _confirmTransaction
+		;; if
+		;; get member signsReceived
+		;; push identifier txn
+		PUSH S1
+		INDEX 3
+		PUSHINT 1
+		;; +
+		ADD
+		;; get member signsRequired
+		;; push identifier txn
+		PUSH S2
+		INDEX 2
+		;; >=
+		GEQ
+		PUSHCONT {
+			;; transfer()
+			;; get member value
+			;; push identifier txn
+			PUSH S1
+			INDEX 7
+			;; get member dest
+			;; push identifier txn
+			PUSH S2
+			INDEX 6
+			;; get member bounce
+			;; push identifier txn
+			PUSH S3
+			INDEX 10
+			NEWC
+			STSLICECONST x6_
+			STI 1
+			PUSHINT 3
+			STZEROES
+			STSLICE
+			SWAP
+			STGRAMS
+			PUSHINT 105
+			STZEROES
+			STSLICECONST 0
+			STSLICECONST 1
+			;; get member payload
+			;; push identifier txn
+			PUSH S2
+			INDEX 9
+			STREFR
+			ENDC
+			;; get member sendFlags
+			;; push identifier txn
+			PUSH S2
+			INDEX 8
+			SENDRAWMSG
+			;; push identifier m_requestsMask
+			GETGLOB 11
+			;; get member index
+			;; push identifier txn
+			PUSH S2
+			INDEX 5
+			;; param: mask
+			;; param: index
+			; function _decMaskValue
+			;; return
+			;; push identifier mask
+			PUSH S1
+			PUSHINT 1
+			PUSHINT 8
+			;; push identifier index
+			PUSH S3
+			;; *
+			MUL
+			;; <<
+			LSHIFT
+			;; -
+			SUB
+			NIP
+			NIP
+			; end function _decMaskValue
+			; expValue
+			; end expValue
+			; colValue
+			SETGLOB 11
+			; end colValue
+			;; delete
+			; expValue
+			;; fetch m_transactions
+			GETGLOB 12
+			;; push identifier transactionId
+			PUSH S3
+			SWAP
+			; end expValue
+			PUSH S1
+			SWAP
+			PUSHINT 64
+			DICTUDEL
+			DROP
+			; colValue
+			NIP
+			SETGLOB 12
+			; end colValue
+		}
+		PUSHCONT {
+			;; get member confirmationsMask
+			;; push identifier txn
+			PUSH S1
+			INDEX 1
+			;; push identifier custodianIndex
+			PUSH S1
+			;; param: mask
+			;; param: custodianIndex
+			; function _setConfirmed
+			PUSHINT 1
+			;; uint32
+			UFITS 32
+			;; push identifier custodianIndex
+			PUSH S1
+			;; <<
+			LSHIFT
+			; expValue
+			PUSH S2
+			; end expValue
+			SWAP
+			OR
+			; colValue
+			POP s2
+			; end colValue
+			;; return
+			;; push identifier mask
+			PUSH S1
+			NIP
+			NIP
+			; end function _setConfirmed
+			; expValue
+			PUSH S2
+			; end expValue
+			SWAP
+			; colValue
+			SETINDEX 1
+			POP s2
+			; end colValue
+			;; ++
+			; expValue
+			PUSH S1
+			DUP
+			INDEX 3
+			; end expValue
+			INC
+			; colValue
+			SETINDEX 3
+			POP s2
+			; end colValue
+			; expValue
+			;; fetch m_transactions
+			GETGLOB 12
+			;; push identifier transactionId
+			PUSH S3
+			SWAP
+			; end expValue
+			;; push identifier txn
+			PUSH S3
+			; colValue
+			UNTUPLE 11
+			NEWC
+			PUSH S11
+			STUR 64
+			PUSH S10
+			STUR 32
+			PUSH S9
+			STUR 8
+			PUSH S8
+			STUR 8
+			PUSH S7
+			STUR 256
+			PUSH S6
+			STUR 8
+			PUSH S5
+			STSLICER
+			PUSH S4
+			STUR 128
+			PUSH S3
+			STUR 16
+			PUSH S2
+			STREFR
+			PUSH S1
+			STIR 1
+			XCHG s11
+			BLKDROP 11
+			ROTREV
+			PUSHINT 64
+			DICTUSETB
+			SETGLOB 12
+			; end colValue
+		}
+		IFELSE
+		;; end if
+		BLKDROP 3
+		; end function _confirmTransaction
+		;; return
+		;; push identifier trId
+		PUSH S1
+		XCHG s15
+		BLKDROP 15
+		RET
+	}
+	CONDSEL
+	JMPX
+	;; end if
+}
+CALLX
+;; emitting 1 value(s)
+PUSH S1
+EQINT -1
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 0
+	STSLICECONST x931d82cd
+	PUSH S1
+	STUR 64
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+DROP
+; end function submitTransaction
+CALL $c7_to_c4$
+TRUE
+SETGLOB 7
+
+.globl	submitTransaction_internal
+.type	submitTransaction_internal, @function
+;; param: dest
+;; param: value
+;; param: bounce
+;; param: allBalance
+;; param: payload
+; function submitTransaction
+;; ret param: transId
+PUSHINT 0
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; decl: senderKey
+;; push identifier senderKey
+DUP
+;; param: senderKey
+; function _findCustodian
+;; map.fetch
+;; push identifier senderKey
+DUP
+;; push identifier m_custodians
+GETGLOB 13
+PUSHINT 256
+DICTUGET
+NULLSWAPIFNOT
+PUSHCONT {
+	PLDU 8
+}
+IF
+;; decl: index
+;; push identifier index
+DUP
+ISNULL
+NOT
+THROWIFNOT 100
+;; return
+;; push identifier index
+DUP
+DUP
+ISNULL
+THROWIF 63
+NIP
+NIP
+; end function _findCustodian
+;; decl: index
+;; push identifier value
+PUSH S6
+PUSHINT 1000000
+;; >=
+GEQ
+THROWIFNOT 107
+;; push identifier payload
+PUSH S3
+CTOS
+NULL
+SWAP
+PUSHINT 0
+PUSHINT 1 ; null s b r
+PUSHCONT {
+    ; null s... b r
+	PUSH S2 ; null s... b r s
+	SREFS   ; null s... b r cntRef
+	PUSHCONT {
+		; null s... b r
+		ROT         ; null s... b r s
+		LDREFRTOS   ; null s... b r s' new_s
+		SWAP2       ; null s... s' new_s b r
+		INC
+	}
+	PUSHCONT {
+		; null s... b r
+		XCHG S2 ; null s... r b s
+		SBITS   ; null s... r b bs
+		ADD     ; null s... r b
+		SWAP    ; null s... b r
+	}
+	IFELSE
+	PUSH S2
+	ISNULL
+}
+UNTIL
+; null b r
+ROT  ; b r null
+DROP ; b r
+;; decl: bits
+;; decl: cells
+;; push identifier bits
+PUSH S1
+PUSHINT 8192
+;; <
+LESS
+;; short-circuiting &&
+DUP
+PUSHCONT {
+	DROP
+	;; push identifier cells
+	DUP
+	LESSINT 8
+}
+IF
+THROWIFNOT 121
+; function _removeExpiredTransactions
+PUSHCONT {
+	; function _getExpirationBound
+	;; return
+	;; push identifier now
+	NOW
+	PUSHINT 3600
+	;; -
+	SUB
+	PUSHINT 32
+	;; <<
+	LSHIFT
+	; end function _getExpirationBound
+	;; decl: marker
+	;; map.min
+	;; push identifier m_transactions
+	GETGLOB 12
+	PUSHINT 64
+	DICTUMIN
+	PUSHCONT {
+		SWAP
+		LDU 64
+		LDU 32
+		LDU 8
+		LDU 8
+		LDU 256
+		LDU 8
+		LDMSGADDR
+		LDU 128
+		LDU 16
+		LDREF
+		PLDI 1
+		TUPLE 11
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	;; decl: minTransaction
+	;; if
+	;; !
+	;; push identifier minTransaction
+	DUP
+	ISNULL
+	PUSHCONT {
+		;; return
+		DROP2
+		RET
+	}
+	IFJMP
+	;; end if
+	;; push identifier minTransaction
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	;; decl: trId
+	;; decl: txn
+	;; push identifier trId
+	PUSH S1
+	;; push identifier marker
+	PUSH S4
+	;; <=
+	LEQ
+	;; decl: needCleanup
+	;; if
+	;; !
+	;; push identifier needCleanup
+	DUP
+	PUSHCONT {
+		;; return
+		BLKDROP 5
+		RET
+	}
+	IFNOTJMP
+	;; end if
+	ACCEPT
+	PUSHINT 0
+	;; decl: i
+	; while
+	FALSE ; decl return flag
+	PUSHCONT {
+		DUP
+		LESSINT 2
+		DUP
+		PUSHCONT {
+			DROP
+			;; push identifier needCleanup
+			PUSH S2
+			;; short-circuiting &&
+			DUP
+			PUSHCONT {
+				DROP
+				;; push identifier i
+				PUSH S1
+				LESSINT 40
+			}
+			IF
+		}
+		IF
+	}
+	PUSHCONT {
+		;; ++
+		; expValue
+		PUSH S1
+		; end expValue
+		INC
+		; colValue
+		POP s2
+		; end colValue
+		;; push identifier m_requestsMask
+		GETGLOB 11
+		;; get member index
+		;; push identifier txn
+		PUSH S4
+		INDEX 5
+		;; param: mask
+		;; param: index
+		; function _decMaskValue
+		;; return
+		;; push identifier mask
+		PUSH S1
+		PUSHINT 1
+		PUSHINT 8
+		;; push identifier index
+		PUSH S3
+		;; *
+		MUL
+		;; <<
+		LSHIFT
+		;; -
+		SUB
+		NIP
+		NIP
+		; end function _decMaskValue
+		; expValue
+		; end expValue
+		; colValue
+		SETGLOB 11
+		; end colValue
+		;; delete
+		; expValue
+		;; fetch m_transactions
+		GETGLOB 12
+		;; push identifier trId
+		PUSH S5
+		SWAP
+		; end expValue
+		PUSH S1
+		SWAP
+		PUSHINT 64
+		DICTUDEL
+		DROP
+		; colValue
+		NIP
+		SETGLOB 12
+		; end colValue
+		;; map.next
+		;; push identifier trId
+		PUSH S4
+		;; push identifier m_transactions
+		GETGLOB 12
+		PUSHINT 64
+		DICTUGETNEXT
+		PUSHCONT {
+			SWAP
+			LDU 64
+			LDU 32
+			LDU 8
+			LDU 8
+			LDU 256
+			LDU 8
+			LDMSGADDR
+			LDU 128
+			LDU 16
+			LDREF
+			PLDI 1
+			TUPLE 11
+			TUPLE 2
+		}
+		PUSHCONT {
+			NULL
+		}
+		IFELSE
+		; expValue
+		; end expValue
+		; colValue
+		POP s6
+		; end colValue
+		;; if
+		;; !
+		;; push identifier minTransaction
+		PUSH S5
+		ISNULL
+		PUSHCONT {
+			;; break
+			DROP
+			PUSHINT 2
+			RET
+		}
+		IFJMP
+		;; end if
+		;; push identifier minTransaction
+		PUSH S5
+		DUP
+		ISNULL
+		THROWIF 63
+		UNTUPLE 2
+		SWAP
+		; expValue
+		; end expValue
+		; colValue
+		POP s6
+		; end colValue
+		; expValue
+		; end expValue
+		; colValue
+		POP s4
+		; end colValue
+		; expValue
+		; end expValue
+		;; push identifier trId
+		PUSH S4
+		;; push identifier marker
+		PUSH S7
+		;; <=
+		LEQ
+		; colValue
+		POP s3
+		; end colValue
+	}
+	WHILE
+	DROP
+	; end while
+	CALL $c7_to_c4$
+	COMMIT
+	BLKDROP 6
+}
+CALLX
+; end function _removeExpiredTransactions
+;; push identifier m_requestsMask
+GETGLOB 11
+;; push identifier index
+PUSH S3
+;; param: mask
+;; param: index
+; function _getMaskValue
+;; return
+;; push identifier mask
+PUSH S1
+PUSHINT 8
+;; push identifier index
+PUSH S2
+;; *
+MUL
+;; >>
+RSHIFT
+PUSHINT 255
+;; &
+AND
+;; uint8
+UFITS 8
+NIP
+NIP
+; end function _getMaskValue
+LESSINT 5
+THROWIFNOT 113
+ACCEPT
+;; push identifier value
+PUSH S8
+;; push identifier allBalance
+PUSH S7
+;; param: value
+;; param: allBalance
+; function _getSendFlags
+PUSHINT 2
+PUSHINT 1
+;; |
+OR
+;; decl: flags
+;; if
+;; push identifier allBalance
+PUSH S1
+PUSHCONT {
+	; expValue
+	; end expValue
+	PUSHINT 2
+	PUSHINT 128
+	;; |
+	OR
+	; colValue
+	NIP
+	; end colValue
+	;; get member balance
+	GETPARAM 7
+	INDEX 0
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+}
+IF
+;; end if
+;; return
+;; push identifier flags
+DUP
+;; push identifier value
+PUSH S3
+BLKDROP2 3, 2
+; end function _getSendFlags
+;; decl: flags
+;; decl: realValue
+;; push identifier m_defaultRequiredConfirmations
+GETGLOB 16
+;; decl: requiredSigns
+;; if
+;; push identifier requiredSigns
+DUP
+EQINT 1
+PUSHCONT {
+	;; transfer()
+	;; push identifier realValue
+	PUSH S1
+	;; push identifier dest
+	PUSH S13
+	;; push identifier bounce
+	PUSH S12
+	NEWC
+	STSLICECONST x6_
+	STI 1
+	PUSHINT 3
+	STZEROES
+	STSLICE
+	SWAP
+	STGRAMS
+	PUSHINT 105
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 1
+	;; push identifier payload
+	PUSH S9
+	STREFR
+	ENDC
+	;; push identifier flags
+	PUSH S3
+	SENDRAWMSG
+	;; return
+	BLKDROP 13
+	PUSHINT 0
+	RET
+}
+PUSHCONT {
+	;; push identifier m_requestsMask
+	GETGLOB 11
+	;; push identifier index
+	PUSH S6
+	;; param: mask
+	;; param: index
+	; function _incMaskValue
+	;; return
+	;; push identifier mask
+	PUSH S1
+	PUSHINT 1
+	PUSHINT 8
+	;; push identifier index
+	PUSH S3
+	;; *
+	MUL
+	;; <<
+	LSHIFT
+	;; +
+	ADD
+	NIP
+	NIP
+	; end function _incMaskValue
+	; expValue
+	; end expValue
+	; colValue
+	SETGLOB 11
+	; end colValue
+	; function _generateId
+	;; return
+	;; push identifier now
+	NOW
+	PUSHINT 32
+	;; <<
+	LSHIFT
+	;; get member timestamp
+	LTIME
+	PUSHINT 4294967295
+	;; &
+	AND
+	;; |
+	OR
+	; end function _generateId
+	;; decl: trId
+	;; push identifier trId
+	DUP
+	PUSHINT 0
+	;; push identifier requiredSigns
+	PUSH S3
+	PUSHINT 0
+	;; push identifier senderKey
+	PUSH S11
+	;; push identifier index
+	PUSH S11
+	;; push identifier dest
+	PUSH S19
+	;; push identifier realValue
+	PUSH S9
+	;; push identifier flags
+	PUSH S11
+	;; push identifier payload
+	PUSH S18
+	;; push identifier bounce
+	PUSH S21
+	TUPLE 11
+	;; decl: txn
+	;; push identifier trId
+	PUSH S1
+	;; push identifier txn
+	PUSH S1
+	;; push identifier index
+	PUSH S9
+	;; param: transactionId
+	;; param: txn
+	;; param: custodianIndex
+	; function _confirmTransaction
+	;; if
+	;; get member signsReceived
+	;; push identifier txn
+	PUSH S1
+	INDEX 3
+	PUSHINT 1
+	;; +
+	ADD
+	;; get member signsRequired
+	;; push identifier txn
+	PUSH S2
+	INDEX 2
+	;; >=
+	GEQ
+	PUSHCONT {
+		;; transfer()
+		;; get member value
+		;; push identifier txn
+		PUSH S1
+		INDEX 7
+		;; get member dest
+		;; push identifier txn
+		PUSH S2
+		INDEX 6
+		;; get member bounce
+		;; push identifier txn
+		PUSH S3
+		INDEX 10
+		NEWC
+		STSLICECONST x6_
+		STI 1
+		PUSHINT 3
+		STZEROES
+		STSLICE
+		SWAP
+		STGRAMS
+		PUSHINT 105
+		STZEROES
+		STSLICECONST 0
+		STSLICECONST 1
+		;; get member payload
+		;; push identifier txn
+		PUSH S2
+		INDEX 9
+		STREFR
+		ENDC
+		;; get member sendFlags
+		;; push identifier txn
+		PUSH S2
+		INDEX 8
+		SENDRAWMSG
+		;; push identifier m_requestsMask
+		GETGLOB 11
+		;; get member index
+		;; push identifier txn
+		PUSH S2
+		INDEX 5
+		;; param: mask
+		;; param: index
+		; function _decMaskValue
+		;; return
+		;; push identifier mask
+		PUSH S1
+		PUSHINT 1
+		PUSHINT 8
+		;; push identifier index
+		PUSH S3
+		;; *
+		MUL
+		;; <<
+		LSHIFT
+		;; -
+		SUB
+		NIP
+		NIP
+		; end function _decMaskValue
+		; expValue
+		; end expValue
+		; colValue
+		SETGLOB 11
+		; end colValue
+		;; delete
+		; expValue
+		;; fetch m_transactions
+		GETGLOB 12
+		;; push identifier transactionId
+		PUSH S3
+		SWAP
+		; end expValue
+		PUSH S1
+		SWAP
+		PUSHINT 64
+		DICTUDEL
+		DROP
+		; colValue
+		NIP
+		SETGLOB 12
+		; end colValue
+	}
+	PUSHCONT {
+		;; get member confirmationsMask
+		;; push identifier txn
+		PUSH S1
+		INDEX 1
+		;; push identifier custodianIndex
+		PUSH S1
+		;; param: mask
+		;; param: custodianIndex
+		; function _setConfirmed
+		PUSHINT 1
+		;; uint32
+		UFITS 32
+		;; push identifier custodianIndex
+		PUSH S1
+		;; <<
+		LSHIFT
+		; expValue
+		PUSH S2
+		; end expValue
+		SWAP
+		OR
+		; colValue
+		POP s2
+		; end colValue
+		;; return
+		;; push identifier mask
+		PUSH S1
+		NIP
+		NIP
+		; end function _setConfirmed
+		; expValue
+		PUSH S2
+		; end expValue
+		SWAP
+		; colValue
+		SETINDEX 1
+		POP s2
+		; end colValue
+		;; ++
+		; expValue
+		PUSH S1
+		DUP
+		INDEX 3
+		; end expValue
+		INC
+		; colValue
+		SETINDEX 3
+		POP s2
+		; end colValue
+		; expValue
+		;; fetch m_transactions
+		GETGLOB 12
+		;; push identifier transactionId
+		PUSH S3
+		SWAP
+		; end expValue
+		;; push identifier txn
+		PUSH S3
+		; colValue
+		UNTUPLE 11
+		NEWC
+		PUSH S11
+		STUR 64
+		PUSH S10
+		STUR 32
+		PUSH S9
+		STUR 8
+		PUSH S8
+		STUR 8
+		PUSH S7
+		STUR 256
+		PUSH S6
+		STUR 8
+		PUSH S5
+		STSLICER
+		PUSH S4
+		STUR 128
+		PUSH S3
+		STUR 16
+		PUSH S2
+		STREFR
+		PUSH S1
+		STIR 1
+		XCHG s11
+		BLKDROP 11
+		ROTREV
+		PUSHINT 64
+		DICTUSETB
+		SETGLOB 12
+		; end colValue
+	}
+	IFELSE
+	;; end if
+	BLKDROP 3
+	; end function _confirmTransaction
+	;; return
+	;; push identifier trId
+	PUSH S1
+	XCHG s15
+	BLKDROP 15
+	RET
+}
+CONDSEL
+JMPX
+;; end if
+; end function submitTransaction
+
+.globl	confirmTransaction
+.public	confirmTransaction
+.type	confirmTransaction, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+; Decode transactionId
+LDU 64
+ENDS
+;; param: transactionId
+; function confirmTransaction
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; param: senderKey
+; function _findCustodian
+;; map.fetch
+;; push identifier senderKey
+DUP
+;; push identifier m_custodians
+GETGLOB 13
+PUSHINT 256
+DICTUGET
+NULLSWAPIFNOT
+PUSHCONT {
+	PLDU 8
+}
+IF
+;; decl: index
+;; push identifier index
+DUP
+ISNULL
+NOT
+THROWIFNOT 100
+;; return
+;; push identifier index
+DUP
+DUP
+ISNULL
+THROWIF 63
+NIP
+NIP
+; end function _findCustodian
+;; decl: index
+; function _removeExpiredTransactions
+PUSHCONT {
+	; function _getExpirationBound
+	;; return
+	;; push identifier now
+	NOW
+	PUSHINT 3600
+	;; -
+	SUB
+	PUSHINT 32
+	;; <<
+	LSHIFT
+	; end function _getExpirationBound
+	;; decl: marker
+	;; map.min
+	;; push identifier m_transactions
+	GETGLOB 12
+	PUSHINT 64
+	DICTUMIN
+	PUSHCONT {
+		SWAP
+		LDU 64
+		LDU 32
+		LDU 8
+		LDU 8
+		LDU 256
+		LDU 8
+		LDMSGADDR
+		LDU 128
+		LDU 16
+		LDREF
+		PLDI 1
+		TUPLE 11
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	;; decl: minTransaction
+	;; if
+	;; !
+	;; push identifier minTransaction
+	DUP
+	ISNULL
+	PUSHCONT {
+		;; return
+		DROP2
+		RET
+	}
+	IFJMP
+	;; end if
+	;; push identifier minTransaction
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	;; decl: trId
+	;; decl: txn
+	;; push identifier trId
+	PUSH S1
+	;; push identifier marker
+	PUSH S4
+	;; <=
+	LEQ
+	;; decl: needCleanup
+	;; if
+	;; !
+	;; push identifier needCleanup
+	DUP
+	PUSHCONT {
+		;; return
+		BLKDROP 5
+		RET
+	}
+	IFNOTJMP
+	;; end if
+	ACCEPT
+	PUSHINT 0
+	;; decl: i
+	; while
+	FALSE ; decl return flag
+	PUSHCONT {
+		DUP
+		LESSINT 2
+		DUP
+		PUSHCONT {
+			DROP
+			;; push identifier needCleanup
+			PUSH S2
+			;; short-circuiting &&
+			DUP
+			PUSHCONT {
+				DROP
+				;; push identifier i
+				PUSH S1
+				LESSINT 40
+			}
+			IF
+		}
+		IF
+	}
+	PUSHCONT {
+		;; ++
+		; expValue
+		PUSH S1
+		; end expValue
+		INC
+		; colValue
+		POP s2
+		; end colValue
+		;; push identifier m_requestsMask
+		GETGLOB 11
+		;; get member index
+		;; push identifier txn
+		PUSH S4
+		INDEX 5
+		;; param: mask
+		;; param: index
+		; function _decMaskValue
+		;; return
+		;; push identifier mask
+		PUSH S1
+		PUSHINT 1
+		PUSHINT 8
+		;; push identifier index
+		PUSH S3
+		;; *
+		MUL
+		;; <<
+		LSHIFT
+		;; -
+		SUB
+		NIP
+		NIP
+		; end function _decMaskValue
+		; expValue
+		; end expValue
+		; colValue
+		SETGLOB 11
+		; end colValue
+		;; delete
+		; expValue
+		;; fetch m_transactions
+		GETGLOB 12
+		;; push identifier trId
+		PUSH S5
+		SWAP
+		; end expValue
+		PUSH S1
+		SWAP
+		PUSHINT 64
+		DICTUDEL
+		DROP
+		; colValue
+		NIP
+		SETGLOB 12
+		; end colValue
+		;; map.next
+		;; push identifier trId
+		PUSH S4
+		;; push identifier m_transactions
+		GETGLOB 12
+		PUSHINT 64
+		DICTUGETNEXT
+		PUSHCONT {
+			SWAP
+			LDU 64
+			LDU 32
+			LDU 8
+			LDU 8
+			LDU 256
+			LDU 8
+			LDMSGADDR
+			LDU 128
+			LDU 16
+			LDREF
+			PLDI 1
+			TUPLE 11
+			TUPLE 2
+		}
+		PUSHCONT {
+			NULL
+		}
+		IFELSE
+		; expValue
+		; end expValue
+		; colValue
+		POP s6
+		; end colValue
+		;; if
+		;; !
+		;; push identifier minTransaction
+		PUSH S5
+		ISNULL
+		PUSHCONT {
+			;; break
+			DROP
+			PUSHINT 2
+			RET
+		}
+		IFJMP
+		;; end if
+		;; push identifier minTransaction
+		PUSH S5
+		DUP
+		ISNULL
+		THROWIF 63
+		UNTUPLE 2
+		SWAP
+		; expValue
+		; end expValue
+		; colValue
+		POP s6
+		; end colValue
+		; expValue
+		; end expValue
+		; colValue
+		POP s4
+		; end colValue
+		; expValue
+		; end expValue
+		;; push identifier trId
+		PUSH S4
+		;; push identifier marker
+		PUSH S7
+		;; <=
+		LEQ
+		; colValue
+		POP s3
+		; end colValue
+	}
+	WHILE
+	DROP
+	; end while
+	CALL $c7_to_c4$
+	COMMIT
+	BLKDROP 6
+}
+CALLX
+; end function _removeExpiredTransactions
+;; map.fetch
+;; push identifier transactionId
+PUSH S1
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUGET
+NULLSWAPIFNOT
+PUSHCONT {
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+}
+IF
+;; decl: txn
+;; push identifier txn
+DUP
+ISNULL
+NOT
+THROWIFNOT 102
+;; !
+;; get member confirmationsMask
+;; push identifier txn
+DUP
+DUP
+ISNULL
+THROWIF 63
+INDEX 1
+;; push identifier index
+PUSH S2
+;; param: mask
+;; param: custodianIndex
+; function _isConfirmed
+;; return
+;; push identifier mask
+PUSH S1
+;; push identifier custodianIndex
+PUSH S1
+;; param: mask
+;; param: index
+; function _checkBit
+;; return
+;; push identifier mask
+PUSH S1
+PUSHINT 1
+;; uint32
+UFITS 32
+;; push identifier index
+PUSH S2
+;; <<
+LSHIFT
+;; &
+AND
+NEQINT 0
+NIP
+NIP
+; end function _checkBit
+NIP
+NIP
+; end function _isConfirmed
+NOT
+THROWIFNOT 103
+ACCEPT
+;; push identifier transactionId
+PUSH S2
+;; push identifier txn
+PUSH S1
+DUP
+ISNULL
+THROWIF 63
+;; push identifier index
+PUSH S3
+;; param: transactionId
+;; param: txn
+;; param: custodianIndex
+; function _confirmTransaction
+;; if
+;; get member signsReceived
+;; push identifier txn
+PUSH S1
+INDEX 3
+PUSHINT 1
+;; +
+ADD
+;; get member signsRequired
+;; push identifier txn
+PUSH S2
+INDEX 2
+;; >=
+GEQ
+PUSHCONT {
+	;; transfer()
+	;; get member value
+	;; push identifier txn
+	PUSH S1
+	INDEX 7
+	;; get member dest
+	;; push identifier txn
+	PUSH S2
+	INDEX 6
+	;; get member bounce
+	;; push identifier txn
+	PUSH S3
+	INDEX 10
+	NEWC
+	STSLICECONST x6_
+	STI 1
+	PUSHINT 3
+	STZEROES
+	STSLICE
+	SWAP
+	STGRAMS
+	PUSHINT 105
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 1
+	;; get member payload
+	;; push identifier txn
+	PUSH S2
+	INDEX 9
+	STREFR
+	ENDC
+	;; get member sendFlags
+	;; push identifier txn
+	PUSH S2
+	INDEX 8
+	SENDRAWMSG
+	;; push identifier m_requestsMask
+	GETGLOB 11
+	;; get member index
+	;; push identifier txn
+	PUSH S2
+	INDEX 5
+	;; param: mask
+	;; param: index
+	; function _decMaskValue
+	;; return
+	;; push identifier mask
+	PUSH S1
+	PUSHINT 1
+	PUSHINT 8
+	;; push identifier index
+	PUSH S3
+	;; *
+	MUL
+	;; <<
+	LSHIFT
+	;; -
+	SUB
+	NIP
+	NIP
+	; end function _decMaskValue
+	; expValue
+	; end expValue
+	; colValue
+	SETGLOB 11
+	; end colValue
+	;; delete
+	; expValue
+	;; fetch m_transactions
+	GETGLOB 12
+	;; push identifier transactionId
+	PUSH S3
+	SWAP
+	; end expValue
+	PUSH S1
+	SWAP
+	PUSHINT 64
+	DICTUDEL
+	DROP
+	; colValue
+	NIP
+	SETGLOB 12
+	; end colValue
+}
+PUSHCONT {
+	;; get member confirmationsMask
+	;; push identifier txn
+	PUSH S1
+	INDEX 1
+	;; push identifier custodianIndex
+	PUSH S1
+	;; param: mask
+	;; param: custodianIndex
+	; function _setConfirmed
+	PUSHINT 1
+	;; uint32
+	UFITS 32
+	;; push identifier custodianIndex
+	PUSH S1
+	;; <<
+	LSHIFT
+	; expValue
+	PUSH S2
+	; end expValue
+	SWAP
+	OR
+	; colValue
+	POP s2
+	; end colValue
+	;; return
+	;; push identifier mask
+	PUSH S1
+	NIP
+	NIP
+	; end function _setConfirmed
+	; expValue
+	PUSH S2
+	; end expValue
+	SWAP
+	; colValue
+	SETINDEX 1
+	POP s2
+	; end colValue
+	;; ++
+	; expValue
+	PUSH S1
+	DUP
+	INDEX 3
+	; end expValue
+	INC
+	; colValue
+	SETINDEX 3
+	POP s2
+	; end colValue
+	; expValue
+	;; fetch m_transactions
+	GETGLOB 12
+	;; push identifier transactionId
+	PUSH S3
+	SWAP
+	; end expValue
+	;; push identifier txn
+	PUSH S3
+	; colValue
+	UNTUPLE 11
+	NEWC
+	PUSH S11
+	STUR 64
+	PUSH S10
+	STUR 32
+	PUSH S9
+	STUR 8
+	PUSH S8
+	STUR 8
+	PUSH S7
+	STUR 256
+	PUSH S6
+	STUR 8
+	PUSH S5
+	STSLICER
+	PUSH S4
+	STUR 128
+	PUSH S3
+	STUR 16
+	PUSH S2
+	STREFR
+	PUSH S1
+	STIR 1
+	XCHG s11
+	BLKDROP 11
+	ROTREV
+	PUSHINT 64
+	DICTUSETB
+	SETGLOB 12
+	; end colValue
+}
+IFELSE
+;; end if
+BLKDROP 3
+; end function _confirmTransaction
+BLKDROP 3
+; end function confirmTransaction
+CALL $c7_to_c4$
+TRUE
+SETGLOB 7
+
+.globl	confirmTransaction_internal
+.type	confirmTransaction_internal, @function
+;; param: transactionId
+; function confirmTransaction
+GETGLOB 5
+DUP
+ISNULL
+PUSHCONT {
+	DROP
+	PUSHINT 0
+}
+IF
+;; param: senderKey
+; function _findCustodian
+;; map.fetch
+;; push identifier senderKey
+DUP
+;; push identifier m_custodians
+GETGLOB 13
+PUSHINT 256
+DICTUGET
+NULLSWAPIFNOT
+PUSHCONT {
+	PLDU 8
+}
+IF
+;; decl: index
+;; push identifier index
+DUP
+ISNULL
+NOT
+THROWIFNOT 100
+;; return
+;; push identifier index
+DUP
+DUP
+ISNULL
+THROWIF 63
+NIP
+NIP
+; end function _findCustodian
+;; decl: index
+; function _removeExpiredTransactions
+PUSHCONT {
+	; function _getExpirationBound
+	;; return
+	;; push identifier now
+	NOW
+	PUSHINT 3600
+	;; -
+	SUB
+	PUSHINT 32
+	;; <<
+	LSHIFT
+	; end function _getExpirationBound
+	;; decl: marker
+	;; map.min
+	;; push identifier m_transactions
+	GETGLOB 12
+	PUSHINT 64
+	DICTUMIN
+	PUSHCONT {
+		SWAP
+		LDU 64
+		LDU 32
+		LDU 8
+		LDU 8
+		LDU 256
+		LDU 8
+		LDMSGADDR
+		LDU 128
+		LDU 16
+		LDREF
+		PLDI 1
+		TUPLE 11
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	;; decl: minTransaction
+	;; if
+	;; !
+	;; push identifier minTransaction
+	DUP
+	ISNULL
+	PUSHCONT {
+		;; return
+		DROP2
+		RET
+	}
+	IFJMP
+	;; end if
+	;; push identifier minTransaction
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	;; decl: trId
+	;; decl: txn
+	;; push identifier trId
+	PUSH S1
+	;; push identifier marker
+	PUSH S4
+	;; <=
+	LEQ
+	;; decl: needCleanup
+	;; if
+	;; !
+	;; push identifier needCleanup
+	DUP
+	PUSHCONT {
+		;; return
+		BLKDROP 5
+		RET
+	}
+	IFNOTJMP
+	;; end if
+	ACCEPT
+	PUSHINT 0
+	;; decl: i
+	; while
+	FALSE ; decl return flag
+	PUSHCONT {
+		DUP
+		LESSINT 2
+		DUP
+		PUSHCONT {
+			DROP
+			;; push identifier needCleanup
+			PUSH S2
+			;; short-circuiting &&
+			DUP
+			PUSHCONT {
+				DROP
+				;; push identifier i
+				PUSH S1
+				LESSINT 40
+			}
+			IF
+		}
+		IF
+	}
+	PUSHCONT {
+		;; ++
+		; expValue
+		PUSH S1
+		; end expValue
+		INC
+		; colValue
+		POP s2
+		; end colValue
+		;; push identifier m_requestsMask
+		GETGLOB 11
+		;; get member index
+		;; push identifier txn
+		PUSH S4
+		INDEX 5
+		;; param: mask
+		;; param: index
+		; function _decMaskValue
+		;; return
+		;; push identifier mask
+		PUSH S1
+		PUSHINT 1
+		PUSHINT 8
+		;; push identifier index
+		PUSH S3
+		;; *
+		MUL
+		;; <<
+		LSHIFT
+		;; -
+		SUB
+		NIP
+		NIP
+		; end function _decMaskValue
+		; expValue
+		; end expValue
+		; colValue
+		SETGLOB 11
+		; end colValue
+		;; delete
+		; expValue
+		;; fetch m_transactions
+		GETGLOB 12
+		;; push identifier trId
+		PUSH S5
+		SWAP
+		; end expValue
+		PUSH S1
+		SWAP
+		PUSHINT 64
+		DICTUDEL
+		DROP
+		; colValue
+		NIP
+		SETGLOB 12
+		; end colValue
+		;; map.next
+		;; push identifier trId
+		PUSH S4
+		;; push identifier m_transactions
+		GETGLOB 12
+		PUSHINT 64
+		DICTUGETNEXT
+		PUSHCONT {
+			SWAP
+			LDU 64
+			LDU 32
+			LDU 8
+			LDU 8
+			LDU 256
+			LDU 8
+			LDMSGADDR
+			LDU 128
+			LDU 16
+			LDREF
+			PLDI 1
+			TUPLE 11
+			TUPLE 2
+		}
+		PUSHCONT {
+			NULL
+		}
+		IFELSE
+		; expValue
+		; end expValue
+		; colValue
+		POP s6
+		; end colValue
+		;; if
+		;; !
+		;; push identifier minTransaction
+		PUSH S5
+		ISNULL
+		PUSHCONT {
+			;; break
+			DROP
+			PUSHINT 2
+			RET
+		}
+		IFJMP
+		;; end if
+		;; push identifier minTransaction
+		PUSH S5
+		DUP
+		ISNULL
+		THROWIF 63
+		UNTUPLE 2
+		SWAP
+		; expValue
+		; end expValue
+		; colValue
+		POP s6
+		; end colValue
+		; expValue
+		; end expValue
+		; colValue
+		POP s4
+		; end colValue
+		; expValue
+		; end expValue
+		;; push identifier trId
+		PUSH S4
+		;; push identifier marker
+		PUSH S7
+		;; <=
+		LEQ
+		; colValue
+		POP s3
+		; end colValue
+	}
+	WHILE
+	DROP
+	; end while
+	CALL $c7_to_c4$
+	COMMIT
+	BLKDROP 6
+}
+CALLX
+; end function _removeExpiredTransactions
+;; map.fetch
+;; push identifier transactionId
+PUSH S1
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUGET
+NULLSWAPIFNOT
+PUSHCONT {
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+}
+IF
+;; decl: txn
+;; push identifier txn
+DUP
+ISNULL
+NOT
+THROWIFNOT 102
+;; !
+;; get member confirmationsMask
+;; push identifier txn
+DUP
+DUP
+ISNULL
+THROWIF 63
+INDEX 1
+;; push identifier index
+PUSH S2
+;; param: mask
+;; param: custodianIndex
+; function _isConfirmed
+;; return
+;; push identifier mask
+PUSH S1
+;; push identifier custodianIndex
+PUSH S1
+;; param: mask
+;; param: index
+; function _checkBit
+;; return
+;; push identifier mask
+PUSH S1
+PUSHINT 1
+;; uint32
+UFITS 32
+;; push identifier index
+PUSH S2
+;; <<
+LSHIFT
+;; &
+AND
+NEQINT 0
+NIP
+NIP
+; end function _checkBit
+NIP
+NIP
+; end function _isConfirmed
+NOT
+THROWIFNOT 103
+ACCEPT
+;; push identifier transactionId
+PUSH S2
+;; push identifier txn
+PUSH S1
+DUP
+ISNULL
+THROWIF 63
+;; push identifier index
+PUSH S3
+;; param: transactionId
+;; param: txn
+;; param: custodianIndex
+; function _confirmTransaction
+;; if
+;; get member signsReceived
+;; push identifier txn
+PUSH S1
+INDEX 3
+PUSHINT 1
+;; +
+ADD
+;; get member signsRequired
+;; push identifier txn
+PUSH S2
+INDEX 2
+;; >=
+GEQ
+PUSHCONT {
+	;; transfer()
+	;; get member value
+	;; push identifier txn
+	PUSH S1
+	INDEX 7
+	;; get member dest
+	;; push identifier txn
+	PUSH S2
+	INDEX 6
+	;; get member bounce
+	;; push identifier txn
+	PUSH S3
+	INDEX 10
+	NEWC
+	STSLICECONST x6_
+	STI 1
+	PUSHINT 3
+	STZEROES
+	STSLICE
+	SWAP
+	STGRAMS
+	PUSHINT 105
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 1
+	;; get member payload
+	;; push identifier txn
+	PUSH S2
+	INDEX 9
+	STREFR
+	ENDC
+	;; get member sendFlags
+	;; push identifier txn
+	PUSH S2
+	INDEX 8
+	SENDRAWMSG
+	;; push identifier m_requestsMask
+	GETGLOB 11
+	;; get member index
+	;; push identifier txn
+	PUSH S2
+	INDEX 5
+	;; param: mask
+	;; param: index
+	; function _decMaskValue
+	;; return
+	;; push identifier mask
+	PUSH S1
+	PUSHINT 1
+	PUSHINT 8
+	;; push identifier index
+	PUSH S3
+	;; *
+	MUL
+	;; <<
+	LSHIFT
+	;; -
+	SUB
+	NIP
+	NIP
+	; end function _decMaskValue
+	; expValue
+	; end expValue
+	; colValue
+	SETGLOB 11
+	; end colValue
+	;; delete
+	; expValue
+	;; fetch m_transactions
+	GETGLOB 12
+	;; push identifier transactionId
+	PUSH S3
+	SWAP
+	; end expValue
+	PUSH S1
+	SWAP
+	PUSHINT 64
+	DICTUDEL
+	DROP
+	; colValue
+	NIP
+	SETGLOB 12
+	; end colValue
+}
+PUSHCONT {
+	;; get member confirmationsMask
+	;; push identifier txn
+	PUSH S1
+	INDEX 1
+	;; push identifier custodianIndex
+	PUSH S1
+	;; param: mask
+	;; param: custodianIndex
+	; function _setConfirmed
+	PUSHINT 1
+	;; uint32
+	UFITS 32
+	;; push identifier custodianIndex
+	PUSH S1
+	;; <<
+	LSHIFT
+	; expValue
+	PUSH S2
+	; end expValue
+	SWAP
+	OR
+	; colValue
+	POP s2
+	; end colValue
+	;; return
+	;; push identifier mask
+	PUSH S1
+	NIP
+	NIP
+	; end function _setConfirmed
+	; expValue
+	PUSH S2
+	; end expValue
+	SWAP
+	; colValue
+	SETINDEX 1
+	POP s2
+	; end colValue
+	;; ++
+	; expValue
+	PUSH S1
+	DUP
+	INDEX 3
+	; end expValue
+	INC
+	; colValue
+	SETINDEX 3
+	POP s2
+	; end colValue
+	; expValue
+	;; fetch m_transactions
+	GETGLOB 12
+	;; push identifier transactionId
+	PUSH S3
+	SWAP
+	; end expValue
+	;; push identifier txn
+	PUSH S3
+	; colValue
+	UNTUPLE 11
+	NEWC
+	PUSH S11
+	STUR 64
+	PUSH S10
+	STUR 32
+	PUSH S9
+	STUR 8
+	PUSH S8
+	STUR 8
+	PUSH S7
+	STUR 256
+	PUSH S6
+	STUR 8
+	PUSH S5
+	STSLICER
+	PUSH S4
+	STUR 128
+	PUSH S3
+	STUR 16
+	PUSH S2
+	STREFR
+	PUSH S1
+	STIR 1
+	XCHG s11
+	BLKDROP 11
+	ROTREV
+	PUSHINT 64
+	DICTUSETB
+	SETGLOB 12
+	; end colValue
+}
+IFELSE
+;; end if
+BLKDROP 3
+; end function _confirmTransaction
+BLKDROP 3
+; end function confirmTransaction
+
+.globl	isConfirmed
+.public	isConfirmed
+.type	isConfirmed, @function
+; Decode input parameters
+; Decode mask
+LDU 32
+; Decode index
+LDU 8
+ENDS
+;; param: mask
+;; param: index
+; function isConfirmed
+;; ret param: confirmed
+PUSHINT 0
+;; push identifier mask
+PUSH S2
+;; push identifier index
+PUSH S2
+;; param: mask
+;; param: custodianIndex
+; function _isConfirmed
+;; return
+;; push identifier mask
+PUSH S1
+;; push identifier custodianIndex
+PUSH S1
+;; param: mask
+;; param: index
+; function _checkBit
+;; return
+;; push identifier mask
+PUSH S1
+PUSHINT 1
+;; uint32
+UFITS 32
+;; push identifier index
+PUSH S2
+;; <<
+LSHIFT
+;; &
+AND
+NEQINT 0
+NIP
+NIP
+; end function _checkBit
+NIP
+NIP
+; end function _isConfirmed
+; expValue
+; end expValue
+; colValue
+NIP
+; end colValue
+;; returning named params
+ROTREV
+DROP2
+;; emitting 1 value(s)
+PUSH S1
+EQINT -1
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 0
+	STSLICECONST x9fe050e3
+	PUSH S1
+	STIR 1
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+DROP
+; end function isConfirmed
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	isConfirmed_internal
+.type	isConfirmed_internal, @function
+;; param: mask
+;; param: index
+; function isConfirmed
+;; ret param: confirmed
+PUSHINT 0
+;; push identifier mask
+PUSH S2
+;; push identifier index
+PUSH S2
+;; param: mask
+;; param: custodianIndex
+; function _isConfirmed
+;; return
+;; push identifier mask
+PUSH S1
+;; push identifier custodianIndex
+PUSH S1
+;; param: mask
+;; param: index
+; function _checkBit
+;; return
+;; push identifier mask
+PUSH S1
+PUSHINT 1
+;; uint32
+UFITS 32
+;; push identifier index
+PUSH S2
+;; <<
+LSHIFT
+;; &
+AND
+NEQINT 0
+NIP
+NIP
+; end function _checkBit
+NIP
+NIP
+; end function _isConfirmed
+; expValue
+; end expValue
+; colValue
+NIP
+; end colValue
+;; returning named params
+ROTREV
+DROP2
+; end function isConfirmed
+
+.globl	getParameters
+.public	getParameters
+.type	getParameters, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+ENDS
+; function getParameters
+;; ret param: maxQueuedTransactions
+PUSHINT 0
+;; ret param: maxCustodianCount
+PUSHINT 0
+;; ret param: expirationTime
+PUSHINT 0
+;; ret param: minValue
+PUSHINT 0
+;; ret param: requiredTxnConfirms
+PUSHINT 0
+; expValue
+; end expValue
+PUSHINT 5
+; colValue
+POP s5
+; end colValue
+; expValue
+; end expValue
+PUSHINT 32
+; colValue
+POP s4
+; end colValue
+; expValue
+; end expValue
+PUSHINT 3600
+; colValue
+POP s3
+; end colValue
+; expValue
+; end expValue
+PUSHINT 1000000
+; colValue
+POP s2
+; end colValue
+; expValue
+; end expValue
+;; push identifier m_defaultRequiredConfirmations
+GETGLOB 16
+; colValue
+NIP
+; end colValue
+;; returning named params
+;; emitting 5 value(s)
+PUSH S5
+EQINT -1
+PUSHCONT {
+	PUSH S7
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 0
+	STSLICECONST xed28dde8
+	PUSH S5
+	STUR 8
+	PUSH S4
+	STUR 8
+	PUSH S3
+	STUR 64
+	PUSH S2
+	STUR 128
+	PUSH S1
+	STUR 8
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+BLKDROP 5
+; end function getParameters
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	getParameters_internal
+.type	getParameters_internal, @function
+; function getParameters
+;; ret param: maxQueuedTransactions
+PUSHINT 0
+;; ret param: maxCustodianCount
+PUSHINT 0
+;; ret param: expirationTime
+PUSHINT 0
+;; ret param: minValue
+PUSHINT 0
+;; ret param: requiredTxnConfirms
+PUSHINT 0
+; expValue
+; end expValue
+PUSHINT 5
+; colValue
+POP s5
+; end colValue
+; expValue
+; end expValue
+PUSHINT 32
+; colValue
+POP s4
+; end colValue
+; expValue
+; end expValue
+PUSHINT 3600
+; colValue
+POP s3
+; end colValue
+; expValue
+; end expValue
+PUSHINT 1000000
+; colValue
+POP s2
+; end colValue
+; expValue
+; end expValue
+;; push identifier m_defaultRequiredConfirmations
+GETGLOB 16
+; colValue
+NIP
+; end colValue
+;; returning named params
+; end function getParameters
+
+.globl	getTransaction
+.public	getTransaction
+.type	getTransaction, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+; Decode transactionId
+LDU 64
+ENDS
+;; param: transactionId
+; function getTransaction
+;; ret param: trans
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHSLICE x8000000000000000000000000000000000000000000000000000000000000000001_
+PUSHINT 0
+PUSHINT 0
+NEWC
+ENDC
+PUSHINT 0
+TUPLE 11
+;; map.fetch
+;; push identifier transactionId
+PUSH S1
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUGET
+NULLSWAPIFNOT
+PUSHCONT {
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+}
+IF
+;; decl: txn
+;; push identifier txn
+DUP
+ISNULL
+NOT
+THROWIFNOT 102
+;; push identifier txn
+DUP
+DUP
+ISNULL
+THROWIF 63
+; expValue
+; end expValue
+; colValue
+POP s2
+; end colValue
+;; returning named params
+ROT
+DROP2
+;; emitting 1 value(s)
+PUSH S1
+EQINT -1
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 1
+	NEWC
+	STSLICECONST x8ad9a08e
+	PUSH S2
+	UNTUPLE 11
+	BLKSWAP 1, 11
+	PUSH S11
+	STUR 64
+	PUSH S10
+	STUR 32
+	PUSH S9
+	STUR 8
+	PUSH S8
+	STUR 8
+	PUSH S7
+	STUR 256
+	PUSH S6
+	STUR 8
+	PUSH S5
+	STSLICER
+	PUSH S4
+	STUR 128
+	PUSH S3
+	STUR 16
+	PUSH S2
+	STREFR
+	PUSH S1
+	STIR 1
+	XCHG s11
+	BLKDROP 11
+	STBREFR
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+DROP
+; end function getTransaction
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	getTransaction_internal
+.type	getTransaction_internal, @function
+;; param: transactionId
+; function getTransaction
+;; ret param: trans
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHINT 0
+PUSHSLICE x8000000000000000000000000000000000000000000000000000000000000000001_
+PUSHINT 0
+PUSHINT 0
+NEWC
+ENDC
+PUSHINT 0
+TUPLE 11
+;; map.fetch
+;; push identifier transactionId
+PUSH S1
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUGET
+NULLSWAPIFNOT
+PUSHCONT {
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+}
+IF
+;; decl: txn
+;; push identifier txn
+DUP
+ISNULL
+NOT
+THROWIFNOT 102
+;; push identifier txn
+DUP
+DUP
+ISNULL
+THROWIF 63
+; expValue
+; end expValue
+; colValue
+POP s2
+; end colValue
+;; returning named params
+ROT
+DROP2
+; end function getTransaction
+
+.globl	getTransactions
+.public	getTransactions
+.type	getTransactions, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+ENDS
+; function getTransactions
+;; ret param: transactions
+PUSHINT 0
+NEWDICT
+PAIR
+; function _getExpirationBound
+;; return
+;; push identifier now
+NOW
+PUSHINT 3600
+;; -
+SUB
+PUSHINT 32
+;; <<
+LSHIFT
+; end function _getExpirationBound
+;; decl: bound
+;; map.min
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUMIN
+PUSHCONT {
+	SWAP
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+	TUPLE 2
+}
+PUSHCONT {
+	NULL
+}
+IFELSE
+;; decl: minTransaction
+; while
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	ISNULL
+	NOT
+}
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	;; decl: id
+	;; decl: txn
+	;; if
+	;; push identifier id
+	PUSH S1
+	;; push identifier bound
+	PUSH S4
+	;; >
+	GREATER
+	PUSHCONT {
+		; expValue
+		PUSH S4
+		; end expValue
+		;; push identifier txn
+		PUSH S1
+		;; array.push(..)
+		UNTUPLE 11
+		NEWC
+		PUSH S11
+		STUR 64
+		PUSH S10
+		STUR 32
+		PUSH S9
+		STUR 8
+		PUSH S8
+		STUR 8
+		PUSH S7
+		STUR 256
+		PUSH S6
+		STUR 8
+		PUSH S5
+		STSLICER
+		PUSH S4
+		STUR 128
+		PUSH S3
+		STUR 16
+		PUSH S2
+		STREFR
+		PUSH S1
+		STIR 1
+		XCHG s11
+		BLKDROP 11
+		SWAP
+		UNPAIR
+		PUSH S1
+		INC
+		XCHG s3
+		ROTREV
+		PUSHINT 32
+		DICTUSETB
+		PAIR
+		; colValue
+		POP s5
+		; end colValue
+	}
+	IF
+	;; end if
+	;; map.next
+	;; push identifier id
+	PUSH S1
+	;; push identifier m_transactions
+	GETGLOB 12
+	PUSHINT 64
+	DICTUGETNEXT
+	PUSHCONT {
+		SWAP
+		LDU 64
+		LDU 32
+		LDU 8
+		LDU 8
+		LDU 256
+		LDU 8
+		LDMSGADDR
+		LDU 128
+		LDU 16
+		LDREF
+		PLDI 1
+		TUPLE 11
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+	DROP2
+}
+WHILE
+; end while
+;; returning named params
+DROP2
+;; emitting 1 value(s)
+PUSH S1
+EQINT -1
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 0
+	STSLICECONST xf3122f72
+	PUSH S1
+	UNPAIR
+	XCHG s2
+	STU 32
+	STDICT
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+DROP
+; end function getTransactions
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	getTransactions_internal
+.type	getTransactions_internal, @function
+; function getTransactions
+;; ret param: transactions
+PUSHINT 0
+NEWDICT
+PAIR
+; function _getExpirationBound
+;; return
+;; push identifier now
+NOW
+PUSHINT 3600
+;; -
+SUB
+PUSHINT 32
+;; <<
+LSHIFT
+; end function _getExpirationBound
+;; decl: bound
+;; map.min
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUMIN
+PUSHCONT {
+	SWAP
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+	TUPLE 2
+}
+PUSHCONT {
+	NULL
+}
+IFELSE
+;; decl: minTransaction
+; while
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	ISNULL
+	NOT
+}
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	;; decl: id
+	;; decl: txn
+	;; if
+	;; push identifier id
+	PUSH S1
+	;; push identifier bound
+	PUSH S4
+	;; >
+	GREATER
+	PUSHCONT {
+		; expValue
+		PUSH S4
+		; end expValue
+		;; push identifier txn
+		PUSH S1
+		;; array.push(..)
+		UNTUPLE 11
+		NEWC
+		PUSH S11
+		STUR 64
+		PUSH S10
+		STUR 32
+		PUSH S9
+		STUR 8
+		PUSH S8
+		STUR 8
+		PUSH S7
+		STUR 256
+		PUSH S6
+		STUR 8
+		PUSH S5
+		STSLICER
+		PUSH S4
+		STUR 128
+		PUSH S3
+		STUR 16
+		PUSH S2
+		STREFR
+		PUSH S1
+		STIR 1
+		XCHG s11
+		BLKDROP 11
+		SWAP
+		UNPAIR
+		PUSH S1
+		INC
+		XCHG s3
+		ROTREV
+		PUSHINT 32
+		DICTUSETB
+		PAIR
+		; colValue
+		POP s5
+		; end colValue
+	}
+	IF
+	;; end if
+	;; map.next
+	;; push identifier id
+	PUSH S1
+	;; push identifier m_transactions
+	GETGLOB 12
+	PUSHINT 64
+	DICTUGETNEXT
+	PUSHCONT {
+		SWAP
+		LDU 64
+		LDU 32
+		LDU 8
+		LDU 8
+		LDU 256
+		LDU 8
+		LDMSGADDR
+		LDU 128
+		LDU 16
+		LDREF
+		PLDI 1
+		TUPLE 11
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+	DROP2
+}
+WHILE
+; end while
+;; returning named params
+DROP2
+; end function getTransactions
+
+.globl	getTransactionIds
+.public	getTransactionIds
+.type	getTransactionIds, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+ENDS
+; function getTransactionIds
+;; ret param: ids
+PUSHINT 0
+NEWDICT
+PAIR
+PUSHINT 0
+;; decl: trId
+;; map.min
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUMIN
+PUSHCONT {
+	SWAP
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+	TUPLE 2
+}
+PUSHCONT {
+	NULL
+}
+IFELSE
+;; decl: minTransaction
+; while
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	ISNULL
+	NOT
+}
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	SWAP
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+	DROP
+	; expValue
+	PUSH S2
+	; end expValue
+	;; push identifier trId
+	PUSH S2
+	;; array.push(..)
+	NEWC
+	STU 64
+	SWAP
+	UNPAIR
+	PUSH S1
+	INC
+	XCHG s3
+	ROTREV
+	PUSHINT 32
+	DICTUSETB
+	PAIR
+	; colValue
+	POP s3
+	; end colValue
+	;; map.next
+	;; push identifier trId
+	PUSH S1
+	;; push identifier m_transactions
+	GETGLOB 12
+	PUSHINT 64
+	DICTUGETNEXT
+	PUSHCONT {
+		SWAP
+		LDU 64
+		LDU 32
+		LDU 8
+		LDU 8
+		LDU 256
+		LDU 8
+		LDMSGADDR
+		LDU 128
+		LDU 16
+		LDREF
+		PLDI 1
+		TUPLE 11
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	; expValue
+	; end expValue
+	; colValue
+	NIP
+	; end colValue
+}
+WHILE
+; end while
+;; returning named params
+DROP2
+;; emitting 1 value(s)
+PUSH S1
+EQINT -1
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 0
+	STSLICECONST xd09c0d0d
+	PUSH S1
+	UNPAIR
+	XCHG s2
+	STU 32
+	STDICT
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+DROP
+; end function getTransactionIds
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	getTransactionIds_internal
+.type	getTransactionIds_internal, @function
+; function getTransactionIds
+;; ret param: ids
+PUSHINT 0
+NEWDICT
+PAIR
+PUSHINT 0
+;; decl: trId
+;; map.min
+;; push identifier m_transactions
+GETGLOB 12
+PUSHINT 64
+DICTUMIN
+PUSHCONT {
+	SWAP
+	LDU 64
+	LDU 32
+	LDU 8
+	LDU 8
+	LDU 256
+	LDU 8
+	LDMSGADDR
+	LDU 128
+	LDU 16
+	LDREF
+	PLDI 1
+	TUPLE 11
+	TUPLE 2
+}
+PUSHCONT {
+	NULL
+}
+IFELSE
+;; decl: minTransaction
+; while
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	ISNULL
+	NOT
+}
+PUSHCONT {
+	;; push identifier minTransaction
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	SWAP
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+	DROP
+	; expValue
+	PUSH S2
+	; end expValue
+	;; push identifier trId
+	PUSH S2
+	;; array.push(..)
+	NEWC
+	STU 64
+	SWAP
+	UNPAIR
+	PUSH S1
+	INC
+	XCHG s3
+	ROTREV
+	PUSHINT 32
+	DICTUSETB
+	PAIR
+	; colValue
+	POP s3
+	; end colValue
+	;; map.next
+	;; push identifier trId
+	PUSH S1
+	;; push identifier m_transactions
+	GETGLOB 12
+	PUSHINT 64
+	DICTUGETNEXT
+	PUSHCONT {
+		SWAP
+		LDU 64
+		LDU 32
+		LDU 8
+		LDU 8
+		LDU 256
+		LDU 8
+		LDMSGADDR
+		LDU 128
+		LDU 16
+		LDREF
+		PLDI 1
+		TUPLE 11
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	; expValue
+	; end expValue
+	; colValue
+	NIP
+	; end colValue
+}
+WHILE
+; end while
+;; returning named params
+DROP2
+; end function getTransactionIds
+
+.globl	getCustodians
+.public	getCustodians
+.type	getCustodians, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+ENDS
+; function getCustodians
+;; ret param: custodians
+PUSHINT 0
+NEWDICT
+PAIR
+;; map.min
+;; push identifier m_custodians
+GETGLOB 13
+PUSHINT 256
+DICTUMIN
+PUSHCONT {
+	SWAP
+	PLDU 8
+	TUPLE 2
+}
+PUSHCONT {
+	NULL
+}
+IFELSE
+;; decl: minCustodian
+; while
+PUSHCONT {
+	;; push identifier minCustodian
+	DUP
+	ISNULL
+	NOT
+}
+PUSHCONT {
+	;; push identifier minCustodian
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	;; decl: key
+	;; decl: index
+	; expValue
+	PUSH S3
+	; end expValue
+	;; push identifier index
+	PUSH S1
+	;; push identifier key
+	PUSH S3
+	TUPLE 2
+	;; array.push(..)
+	UNTUPLE 2
+	NEWC
+	PUSH S2
+	STUR 8
+	PUSH S1
+	STUR 256
+	NIP
+	NIP
+	SWAP
+	UNPAIR
+	PUSH S1
+	INC
+	XCHG s3
+	ROTREV
+	PUSHINT 32
+	DICTUSETB
+	PAIR
+	; colValue
+	POP s4
+	; end colValue
+	;; map.next
+	;; push identifier key
+	PUSH S1
+	;; push identifier m_custodians
+	GETGLOB 13
+	PUSHINT 256
+	DICTUGETNEXT
+	PUSHCONT {
+		SWAP
+		PLDU 8
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+	DROP2
+}
+WHILE
+; end while
+;; returning named params
+DROP
+;; emitting 1 value(s)
+PUSH S1
+EQINT -1
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 0
+	STSLICECONST xdb00d859
+	PUSH S1
+	UNPAIR
+	XCHG s2
+	STU 32
+	STDICT
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+DROP
+; end function getCustodians
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	getCustodians_internal
+.type	getCustodians_internal, @function
+; function getCustodians
+;; ret param: custodians
+PUSHINT 0
+NEWDICT
+PAIR
+;; map.min
+;; push identifier m_custodians
+GETGLOB 13
+PUSHINT 256
+DICTUMIN
+PUSHCONT {
+	SWAP
+	PLDU 8
+	TUPLE 2
+}
+PUSHCONT {
+	NULL
+}
+IFELSE
+;; decl: minCustodian
+; while
+PUSHCONT {
+	;; push identifier minCustodian
+	DUP
+	ISNULL
+	NOT
+}
+PUSHCONT {
+	;; push identifier minCustodian
+	DUP
+	DUP
+	ISNULL
+	THROWIF 63
+	UNTUPLE 2
+	;; decl: key
+	;; decl: index
+	; expValue
+	PUSH S3
+	; end expValue
+	;; push identifier index
+	PUSH S1
+	;; push identifier key
+	PUSH S3
+	TUPLE 2
+	;; array.push(..)
+	UNTUPLE 2
+	NEWC
+	PUSH S2
+	STUR 8
+	PUSH S1
+	STUR 256
+	NIP
+	NIP
+	SWAP
+	UNPAIR
+	PUSH S1
+	INC
+	XCHG s3
+	ROTREV
+	PUSHINT 32
+	DICTUSETB
+	PAIR
+	; colValue
+	POP s4
+	; end colValue
+	;; map.next
+	;; push identifier key
+	PUSH S1
+	;; push identifier m_custodians
+	GETGLOB 13
+	PUSHINT 256
+	DICTUGETNEXT
+	PUSHCONT {
+		SWAP
+		PLDU 8
+		TUPLE 2
+	}
+	PUSHCONT {
+		NULL
+	}
+	IFELSE
+	; expValue
+	; end expValue
+	; colValue
+	POP s3
+	; end colValue
+	DROP2
+}
+WHILE
+; end while
+;; returning named params
+DROP
+; end function getCustodians
+
+.globl	getNode
+.public	getNode
+.type	getNode, @function
+GETGLOB 1
+ISNULL
+PUSHCONT {
+	CALL $c4_to_c7$
+}
+IF
+; Decode input parameters
+ENDS
+; function getNode
+;; ret param: pubkey
+PUSHINT 0
+; expValue
+; end expValue
+;; push identifier m_nodeKey
+GETGLOB 14
+; colValue
+NIP
+; end colValue
+;; returning named params
+;; emitting 1 value(s)
+PUSH S1
+EQINT -1
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 96
+	STZEROES
+	STSLICECONST 0
+	STSLICECONST 0
+	STSLICECONST xb6f5f981
+	PUSH S1
+	STUR 256
+	ENDC
+	PUSHINT 1
+	SENDRAWMSG
+}
+IF
+DROP
+; end function getNode
+PUSHCONT {
+	CALL $c7_to_c4$
+}
+IF
+TRUE
+SETGLOB 7
+
+.globl	getNode_internal
+.type	getNode_internal, @function
+; function getNode
+;; ret param: pubkey
+PUSHINT 0
+; expValue
+; end expValue
+;; push identifier m_nodeKey
+GETGLOB 14
+; colValue
+NIP
+; end colValue
+;; returning named params
+; end function getNode
+
+.globl	c7_to_c4
+.type	c7_to_c4, @function
+GETGLOB 2
+NEWC
+STU 256
+GETGLOB 3
+STUR 64
+GETGLOB 6
+STUR 1
+NEWC
+GETGLOB 14
+SWAP
+STU 256
+GETGLOB 10
+GETGLOB 11
+GETGLOB 12
+GETGLOB 13
+GETGLOB 15
+GETGLOB 16
+REVERSE 8, 0
+STBREF
+STU 256
+STU 256
+STDICT
+STDICT
+STU 8
+STU 8
+ENDC
+POP C4
+
+.globl	c4_to_c7
+.type	c4_to_c7, @function
+PUSHROOT
+CTOS        ; c4
+LDU 256      ; pubkey c4
+LDU 64      ; pubkey timestamp c4
+LDU 1       ; pubkey [timestamp] constructor_flag memory
+LDREFRTOS
+PLDU 256
+SETGLOB 14
+LDU 256
+LDU 256
+LDDICT
+LDDICT
+LDU 8
+PLDU 8
+SETGLOB 16
+SETGLOB 15
+SETGLOB 13
+SETGLOB 12
+SETGLOB 11
+SETGLOB 10
+TRUE
+SETGLOB 1   ; pubkey [timestamp] constructor_flag
+SETGLOB 6   ; pubkey [timestamp]
+SETGLOB 3   ; D
+SETGLOB 2
+
+.macro c4_to_c7_with_init_storage
+PUSHROOT
+CTOS        ; c4
+DUP        ; c4 c4
+SBITS      ; c4 bits
+GTINT 1    ; c4 bits>1
+PUSHCONT {
+	LDU 256      ; pubkey c4
+	LDU 64      ; pubkey timestamp c4
+	LDU 1       ; pubkey [timestamp] constructor_flag memory
+	LDREFRTOS
+	PLDU 256
+	SETGLOB 14
+	LDU 256
+	LDU 256
+	LDDICT
+	LDDICT
+	LDU 8
+	PLDU 8
+	SETGLOB 16
+	SETGLOB 15
+	SETGLOB 13
+	SETGLOB 12
+	SETGLOB 11
+	SETGLOB 10
+	TRUE
+	SETGLOB 1   ; pubkey [timestamp] constructor_flag
+	SETGLOB 6   ; pubkey [timestamp]
+	SETGLOB 3   ; D
+	SETGLOB 2
+}
+PUSHCONT {
+	PLDDICT   ; D
+	; init m_ownerKey
+	PUSHINT 0
+	SETGLOB 10
+	; init m_requestsMask
+	PUSHINT 0
+	SETGLOB 11
+	; init m_transactions
+	NEWDICT
+	SETGLOB 12
+	; init m_custodians
+	NEWDICT
+	SETGLOB 13
+	; init m_nodeKey
+	PUSHINT 0
+	SETGLOB 14
+	; init m_custodianCount
+	PUSHINT 0
+	SETGLOB 15
+	; init m_defaultRequiredConfirmations
+	PUSHINT 0
+	SETGLOB 16
+	; set contract pubkey
+	PUSHINT 0
+	SWAP
+	PUSHINT 64
+	DICTUGET
+	THROWIFNOT 61
+	PLDU 256
+	SETGLOB 2
+	PUSHINT 0 ; timestamp
+	SETGLOB 3
+	PUSHINT 0 ; constructor_flag
+	SETGLOB 6
+	TRUE
+	SETGLOB 1
+}
+IFELSE
+
+.internal-alias :main_internal,        0
+.internal	:main_internal
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Function: main_internal
+;; param: contract_balance
+;; param: msg_balance
+;; param: int_msg_info
+;; param: msg_body_slice
+PUSHINT 0  ; main_external trans id
+PUSH S2
+CTOS
+PLDU 4
+MODPOW2 1
+IFRET
+PUSH S1    ; body
+SEMPTY     ; isEmpty
+IFRET
+PUSH S1 ; body
+LDU 32  ; funcId body'
+PUSH S1 ; funcId body' funcId
+IFNOTRET
+PUSH S1 ; funcId body' funcId
+LESSINT 3            ; funcId body' funcId<3
+PUSH S2              ; funcId body' funcId<3 funcId
+PUSHINT 4294967293   ; funcId body' funcId<3 funcId 4294967293
+GREATER              ; funcId body' funcId<3 funcId>4294967293
+OR                   ; funcId body' funcId<3||funcId>4294967293
+PUSHCONT {
+	DROP2
+}
+IFJMP
+SWAP    ; body funcId
+CALL 1
+GETGLOB 7
+ISNULL
+PUSHCONT {
+	DROP
+}
+IF
+
+.internal-alias :main_external,        -1
+.internal	:main_external
+PUSHINT -1 ; main_external trans id
+PUSH S1
+CALL $c4_to_c7_with_init_storage$
+LDU 1 ; haveSign msgSlice
+SWAP
+PUSHCONT {
+	PUSHINT 512
+	LDSLICEX ; signatureSlice msgSlice
+	DUP      ; signatureSlice msgSlice msgSlice
+	HASHSU   ; signatureSlice msgSlice hashMsgSlice
+	SWAP  ; signatureSlice hashMsgSlice msgSlice
+	LDU 1 ; signatureSlice hashMsgSlice havePubkey msgSlice
+	SWAP  ; signatureSlice hashMsgSlice msgSlice havePubkey
+	PUSHCONT {
+		LDU 256       ; signatureSlice hashMsgSlice pubkey msgSlice
+		XCHG s3
+		SWAP
+	}
+	PUSHCONT {
+		XCHG s2
+		GETGLOB 2
+	}
+	IFELSE
+	DUP
+	SETGLOB 5
+	CHKSIGNU      ; msgSlice isSigned
+	THROWIFNOT 40 ; msgSlice
+}
+PUSHCONT {
+	LDU 1      ; havePubkey msgSlice
+	SWAP       ; msgSlice havePubkey
+	THROWIF 58 ; msgSlice
+}
+IFELSE
+LDU 64                         ; timestamp msgSlice
+SWAP                           ; msgSlice timestamp
+CALL $replay_protection_macro$ ; msgSlice
+LDU 32  ; expireAt msgSlice
+SWAP    ; msgSlice expireAt
+NOW     ; msgSlice expireAt now
+GREATER ; msgSlice expireAt>now
+THROWIFNOT 57
+LDU  32 ; funcId body
+PUSH S1 ; funcId body funcId
+LESSINT 3            ; funcId body' funcId<3
+PUSH S2              ; funcId body' funcId<3 funcId
+PUSHINT 4294967293   ; funcId body' funcId<3 funcId 4294967293
+GREATER              ; funcId body' funcId<3 funcId>4294967293
+OR                   ; funcId body' funcId<3||funcId>4294967293
+PUSHCONT {
+	DROP2
+}
+IFJMP
+SWAP    ; body funcId
+CALL 1
+GETGLOB 7
+ISNULL
+PUSHCONT {
+	DROP
+}
+IF
+
